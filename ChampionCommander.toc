@@ -32,7 +32,9 @@
 ## X-Embeds: LibInit
 ## X-Reboot: 1
 embeds.xml
+#@do-not-package@
 forcelocale.lua
+#@end-do-not-package@
 localization.lua
 ChampionCommander.xml
 core.lua

@@ -31,7 +31,7 @@ local tonumber=tonumber
 local type=type
 local OHF=BFAMissionFrame
 local OHFMissionTab=BFAMissionFrame.MissionTab --Container for mission list and single mission
-local OHFMissions=BFAMissionFrame.MissionTab.MissionList -- same as OrderHallMissionFrameMissions Call Update on this to refresh Mission Listing
+local OHFMissions=BFAMissionFrame.MissionTab.MissionList -- same as BFAMissionFrameMissions Call Update on this to refresh Mission Listing
 local OHFFollowerTab=BFAMissionFrame.FollowerTab -- Contains model view
 local OHFFollowerList=BFAMissionFrame.FollowerList -- Contains follower list (visible in both follower and mission mode)
 local OHFFollowers=BFAMissionFrameFollowers -- Contains scroll list
@@ -40,6 +40,10 @@ local OHFMapTab=BFAMissionFrame.MapTab -- Contains quest map
 local OHFCompleteDialog=BFAMissionFrameMissions.CompleteDialog
 local OHFMissionScroll=BFAMissionFrameMissionsListScrollFrame
 local OHFMissionScrollChild=BFAMissionFrameMissionsListScrollFrameScrollChild
+local OHFTOPLEFT=OHF.GarrCorners.TopLeftGarrCorner
+local OHFTOPRIGHT=OHF.GarrCorners.TopRightGarrCorner
+local OHFBOTTOMLEFT=OHF.GarrCorners.BottomTopLeftGarrCorner
+local OHFBOTTOMRIGHT=OHF.GarrCorners.BottomRightGarrCorner
 local followerType=LE_FOLLOWER_TYPE_GARRISON_8_0
 local garrisonType=LE_GARRISON_TYPE_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
@@ -531,16 +535,16 @@ end
 local TroopsHeader
 function module:GetTroopsFrame()
 	if not TroopsHeader then
-		local frame=CreateFrame("Frame",nil,OrderHallMissionFrame,"TooltipBorderedFrameTemplate")
-		frame.Background:Hide()
+		local frame=CreateFrame("Frame",nil,OHF)--,"TooltipBorderedFrameTemplate")
+		--frame.Background:Hide()
 		frame.Top=frame:CreateTexture(nil,"BACKGROUND",nil,-1)
 		frame.Top:SetPoint("TOPLEFT")
 		frame.Top:SetPoint("BOTTOMRIGHT")
 		frame.Top:SetAtlas("_StoneFrameTile-Top")
 		frame:SetHeight(35)
 		frame:ClearAllPoints()
-		frame:SetPoint("BOTTOMLEFT",OrderHallMissionFrame,"TOPLEFT",0,-2)
-		frame:SetPoint("BOTTOMRIGHT",OrderHallMissionFrame,"TOPRIGHT",2,-2)
+		frame:SetPoint("BOTTOMLEFT",OHF,"TOPLEFT",0,-2)
+		frame:SetPoint("BOTTOMRIGHT",OHF,"TOPRIGHT",2,-2)
     frame:EnableMouse(true)
 		frame:RegisterForDrag("LeftButton")
 		frame:SetScript("OnDragStart",function(frame) if addon:GetBoolean('MOVEPANEL') then OHF:StartMoving() end end)
@@ -567,6 +571,7 @@ local function paintCat(frame)
 end
 local data={}
 function module:DrawKrokuls(main)
+  if true then return end
   if #data==0 then
     for _,n in ipairs(addon:GetData("Krokuls")) do
       tinsert(data,n)
@@ -601,6 +606,7 @@ function module:DrawKrokuls(main)
   end
 end
 function module:DrawTroopStatus(main)
+  if true then return end
   categoryInfo = G.GetClassSpecCategoryInfo(followerType)
   if not OHF:IsVisible() then return end
   local prevCategory, firstCategory;

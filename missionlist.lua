@@ -31,7 +31,7 @@ local tonumber=tonumber
 local type=type
 local OHF=BFAMissionFrame
 local OHFMissionTab=BFAMissionFrame.MissionTab --Container for mission list and single mission
-local OHFMissions=BFAMissionFrame.MissionTab.MissionList -- same as OrderHallMissionFrameMissions Call Update on this to refresh Mission Listing
+local OHFMissions=BFAMissionFrame.MissionTab.MissionList -- same as BFAMissionFrameMissions Call Update on this to refresh Mission Listing
 local OHFFollowerTab=BFAMissionFrame.FollowerTab -- Contains model view
 local OHFFollowerList=BFAMissionFrame.FollowerList -- Contains follower list (visible in both follower and mission mode)
 local OHFFollowers=BFAMissionFrameFollowers -- Contains scroll list
@@ -40,6 +40,10 @@ local OHFMapTab=BFAMissionFrame.MapTab -- Contains quest map
 local OHFCompleteDialog=BFAMissionFrameMissions.CompleteDialog
 local OHFMissionScroll=BFAMissionFrameMissionsListScrollFrame
 local OHFMissionScrollChild=BFAMissionFrameMissionsListScrollFrameScrollChild
+local OHFTOPLEFT=OHF.GarrCorners.TopLeftGarrCorner
+local OHFTOPRIGHT=OHF.GarrCorners.TopRightGarrCorner
+local OHFBOTTOMLEFT=OHF.GarrCorners.BottomTopLeftGarrCorner
+local OHFBOTTOMRIGHT=OHF.GarrCorners.BottomRightGarrCorner
 local followerType=LE_FOLLOWER_TYPE_GARRISON_8_0
 local garrisonType=LE_GARRISON_TYPE_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
@@ -134,7 +138,7 @@ local clean
 local displayClean
 local function GetPerc(mission,realvalue)
 	local p=addon:GetSelectedParty(mission.missionID,missionKEYS[mission.missionID])
-	if not p then addon:SetDirtyFlags("FORCED")return 0 end 
+	if not p then addon:SetDirtyFlags("FORCED")return 0 end
 	local perc=p.perc or 0
 	if realvalue then
 		return perc
@@ -201,10 +205,10 @@ function module:OnInitialized()
 		Garrison_SortMissions_Duration=L["Duration Time"],
 		Garrison_SortMissions_Class=L["Reward type"],
 	}
-	
+
 --@debug@
 	addon:AddBoolean("ELITEMODE",false,L["Elites mission mode"],L["Only consider elite missions"])
---@end-debug@	
+--@end-debug@
 	addon:AddSelect("SORTMISSION","Garrison_SortMissions_Original",sorters,	L["Sort missions by:"],L["Changes the sort order of missions in Mission panel"])
   addon:AddSelect("SORTMISSION2","Garrison_SortMissions_Original",sorters, L["and then by:"],L["Changes the second sort order of missions in Mission panel"])
 	addon:AddBoolean("IGNORELOW",false,L["Empty missions sorted as last"],L["Empty or 0% success mission are sorted as last. Does not apply to \"original\" method"])
@@ -213,7 +217,7 @@ function module:OnInitialized()
 	addon:RegisterForMenu("mission",
 --@debug@
 		"ELITEMODE",
---@end-debug@	
+--@end-debug@
 		"SORTMISSION",
     "SORTMISSION2",
 		"IGNORELOW",
@@ -319,13 +323,13 @@ function module:RewardWarning(this)
 		    level=_G['FACTION_STANDING_LABEL' .. level]
 		    tip:AddLine(FACTION_STANDING_CHANGED:format(C(level,"GREEN"),C(faction,"GREEN")),C.Orange())
 		  end
-    end		  
+    end
 		tip:AddLine(safeformat(L["%s for a wowhead link popup"],SHIFT_KEY_TEXT .. KEY_BUTTON1))
 		tip:Show()
 	end
 end
 function module:PrintLink(this,button)
-  if this.itemID and ChatEdit_TryInsertChatLink((select(2,GetItemInfo(this.itemID)))) then return end 
+  if this.itemID and ChatEdit_TryInsertChatLink((select(2,GetItemInfo(this.itemID)))) then return end
 	if button=="RightButton" then
 		local missionID=this:GetParent().info.missionID
 		---TODO: Manage rewards blacklisting
@@ -348,14 +352,14 @@ end
 -- Sorts missions
 -- Updates top tabs (available/in progress)
 -- calls Update
--- 
+--
 function module:OnUpdateMissions(frame)
 --@debug@
 	addon:Print("Called OnUpdateMissions with ",addon:ListRefreshers())
---@end-debug@	
+--@end-debug@
   if addon:EmptyPermutations() then
     addon:PushRefresher("RefillParties")
-  end    
+  end
   addon:RunRefreshers()
 end
 
@@ -411,7 +415,7 @@ function module:OnSingleUpdate(frame)
   		rw.Icon:SetDesaturated(false)
   		rw.IconBorder:SetDesaturated(false)
   	  if mission.class and mission.class=="Artifact" then
-  	     
+
   			rw.Quantity:SetText(mission.classValue =="0" and "?" or mission.classValue .. "*")
   			rw.Quantity:Show()
  			end
@@ -439,11 +443,11 @@ end
 function module:SortMissions()
 --@debug@
   addon:Print("Sort called")
---@end-debug@     
+--@end-debug@
   if not OHF:IsVisible() then return end
 --@debug@
   addon:Print("Sort executed")
---@end-debug@     
+--@end-debug@
   if OHFMissions.showInProgress then
     sort(OHFMissions.inProgressMissions,sortfuncProgress)
     return
@@ -458,31 +462,31 @@ function module:SortMissions()
 		if IsIgnored(mission) then
 			tremove(OHFMissions.availableMissions,k)
 		else
---@end-debug@			
+--@end-debug@
 			local rc,result =pcall(f,mission)
       local rc2,result2 =pcall(f2,mission)
 --@debug@
       if not rc then addon:Print(missionID,C(result,"Orange")) end
       if not rc2 then addon:Print(missionID,C(result2,"Orange")) end
---@end-debug@     
+--@end-debug@
       if not rc then result="" end
       if not rc2 then result2="" end
       sortKeys[missionID]=format("%s|%s",result,result2:sub(2))
 --@debug@
       sortKeys[missionID]=sortKeys[missionID] .. G.GetMissionName(missionID)
 		end
---@end-debug@			
+--@end-debug@
 	end
 --@debug@
     --DevTools_Dump(sortKeys)
---@end-debug@     
+--@end-debug@
 	sort(OHFMissions.availableMissions,sortfuncAvailable)
 --@debug@
   for i=1,#OHFMissions.availableMissions do
     local mission=OHFMissions.availableMissions[i]
     addon:Print(sortKeys[mission.missionID],mission.name)
   end
---@end-debug@     
+--@end-debug@
 end
 local timer
 local suspendApply
@@ -504,24 +508,24 @@ end
 function addon:ApplySORTMISSION(value)
   Current_Sorter=value
   return self:ReloadMissions()
-end  
+end
 function addon:ApplySORTMISSION2(value)
   addon:Print("SORTMISSION2")
   Second_Sorter=value
   return self:ReloadMissions()
-end  
-local PushRefresher,RunRefreshers,ListRefreshers do 
+end
+local PushRefresher,RunRefreshers,ListRefreshers do
   local Refreshers={
     RefillParties=true,
     CleanMissionsCache=true
   }
   local temp={}
   function PushRefresher(refresher,obj)
-    Refreshers[refresher]=obj or true 
-  end  
+    Refreshers[refresher]=obj or true
+  end
   function RunRefreshers()
   if next(Refreshers) and OHF:IsVisible() then
---@debug@      
+--@debug@
     addon:Print("Runrefresher called from",debugstack(3,2,0))
 --@end-debug@
   else
@@ -531,7 +535,7 @@ local PushRefresher,RunRefreshers,ListRefreshers do
       if type(obj)=="boolean" then
         obj=addon
       end
---@debug@      
+--@debug@
       addon:Print("Running refresher",method)
 --@end-debug@
     if type(obj[method])=="function" then
@@ -539,7 +543,7 @@ local PushRefresher,RunRefreshers,ListRefreshers do
     end
     end
     wipe(Refreshers)
-  end  
+  end
   function ListRefreshers()
     wipe(temp)
     for k,_ in pairs(Refreshers) do
@@ -550,7 +554,7 @@ local PushRefresher,RunRefreshers,ListRefreshers do
 end
 function addon:PushRefresher(refresher)
   return PushRefresher(refresher)
-end  
+end
 function addon:RunRefreshers()
   return RunRefreshers()
 end
@@ -560,7 +564,7 @@ end
 function addon:ReloadMissions()
 --@debug@
   addon:Print("ReloadMissions")
---@end-debug@  
+--@end-debug@
   local OnMissionPage=OHF.MissionTab.MissionPage:IsVisible()
   addon:SortTroop()
   if OnMissionPage then addon:GetMissionpageModule():ClearParty() end
@@ -569,10 +573,10 @@ function addon:ReloadMissions()
     local mission=OHF.MissionTab.MissionPage.info or OHF.MissionTab.MissionPage.missionInfo
   --@debug@
     addon:Print("Refilling mission page for mission ",mission.missionID)
-  --@end-debug@  
+  --@end-debug@
     addon:GetMissionpageModule():FillParty(mission.missionID)
   else
-    OHFMissions:UpdateMissions()  
+    OHFMissions:UpdateMissions()
   end
 end
 function addon:RedrawMissions()
@@ -638,23 +642,23 @@ function addon:Pulse(start)
     menu.Pulse:Play()
   else
     menu.Pulse:Stop()
-  end  
+  end
 end
 local function tutorialTip()
   local steps=addon:NeedsTutorial() or ''
-  
-  return C(steps,"green") .. KEY_BUTTON1 .. L["Resume tutorial"] .. "\n" .. KEY_BUTTON2 .. L["Restart tutorial from beginning"] 
+
+  return C(steps,"green") .. KEY_BUTTON1 .. L["Resume tutorial"] .. "\n" .. KEY_BUTTON2 .. L["Restart tutorial from beginning"]
 end
 
 function module:Menu(flag)
 
   menu=CreateFrame("Frame",nil,OHF,"BFAMenu")
-  menu:SetPoint("TOPLEFT",OHF,"TOPRIGHT",0,30)     
-  menu:SetPoint("BOTTOMLEFT",OHF,"BOTTOMRIGHT",0,0)     
+  menu:SetPoint("TOPLEFT",OHF,"TOPRIGHT",0,30)
+  menu:SetPoint("BOTTOMLEFT",OHF,"BOTTOMRIGHT",0,0)
 
 --  menu=CreateFrame("Frame",nil,OHFMissions,"BFAMenu")
---  menu:SetPoint("TOPLEFT",OHFMissionTab,"TOPRIGHT",0,30)     
---  menu:SetPoint("BOTTOMLEFT",OHFMissionTab,"BOTTOMRIGHT",0,0)     
+--  menu:SetPoint("TOPLEFT",OHFMissionTab,"TOPRIGHT",0,30)
+--  menu:SetPoint("BOTTOMLEFT",OHFMissionTab,"BOTTOMRIGHT",0,0)
   menu.Title:SetText('BFA ' .. addon.version)
   menu.Title:SetTextColor(C:Yellow())
   menu.Close:SetScript("OnClick",CloseMenu)
@@ -697,7 +701,7 @@ function addon:UpdateStop(n)
 end
 function module:OptionsButton()
   local level=OHFMissionScroll:GetFrameLevel()+5
-  local h=-150
+  local h=-27
   local option1=addon:GetFactory():Button(OHFMissionScroll,
   L["Quick start first mission"],
   L["Launch the first filled mission with at least one locked follower.\nKeep SHIFT pressed to actually launch, a simple click will only print mission name with its followers list"],200)
@@ -726,11 +730,13 @@ function module:InitialSetup(this)
 	self:Unhook(this,"OnShow")
 	self:SecureHookScript(this,"OnShow","MainOnShow")
 	self:SecureHookScript(this,"OnHide","MainOnHide")
-	OHF.ChampionsStatusInfo=OHF:CreateFontString(nil,"OVERLAY","GameFontNormalSmall")
-	OHF.ChampionsStatusInfo:SetPoint("TOPRIGHT",-45,-5)
+
+	OHF.ChampionsStatusInfo=OHF.GarrCorners:CreateFontString(nil,"OVERLAY","GameFontNormalSmall")
+	OHF.ChampionsStatusInfo:SetPoint("TOPRIGHT",-45,-2)
 	OHF.ChampionsStatusInfo:SetText("")
-	OHF.TroopsStatusInfo=OHF:CreateFontString(nil,"OVERLAY","GameFontNormalSmall")
-	OHF.TroopsStatusInfo:SetPoint("TOPLEFT",80,-5)
+
+	OHF.TroopsStatusInfo=OHF.GarrCorners:CreateFontString(nil,"OVERLAY","GameFontNormalSmall")
+	OHF.TroopsStatusInfo:SetPoint("TOPLEFT",80,-2)
 	OHF.TroopsStatusInfo:SetText("")
 	self:OptionsButton()
 	self:EvOn()
@@ -777,7 +783,7 @@ function addon:ShowTutorial()
   OpenMenu()
   addon:GetTutorialsModule():Show(true)
 end
-    
+
 function addon:Reset()
   addon:PauseApply(true)
   local w=module:GetMenuItem("BASECHANCE")
@@ -809,7 +815,7 @@ function module:EvOn()
 		if m.Events then m:Events() end
 	end
 	--self:RawHook(OHFMissions,"Update","OnUpdate",true)
-	self:SecureHook("Garrison_SortMissions","SortMissions")	
+	self:SecureHook("Garrison_SortMissions","SortMissions")
 	self:Hook(OHFMissions,"UpdateMissions","OnUpdateMissions",true)
 	self:SecureHook(OHFMissions,"Update","OnUpdate")	--self:RawHook(OHFMissions,"Update","OnUpdate",true)
 end
@@ -821,7 +827,7 @@ function module:EvOff()
 			m:UnregisterAllEvents()
 		end
 	end
-	self:Unhook("Garrison_SortMissions")	
+	self:Unhook("Garrison_SortMissions")
 	self:Unhook(OHFMissions,"UpdateMissions")
 	self:Unhook(OHFMissions,"Update")
 end
@@ -889,7 +895,7 @@ function module:AdjustMissionButton(frame)
   end
   if not missionthreats[frame] then
     missionthreats[frame]=CreateFrame("Frame",nil,frame,"BFAThreats")
-  end  	
+  end
 	local stats=missionstats[frame]
 	local aLevel,aIlevel=addon:GetAverageLevels()
 	if mission.isMaxLevel then
@@ -918,9 +924,9 @@ function  module:SafeAddMembers(frame)
   local rc,errorMessage=pcall(self.AddMembers,self,frame)
   if not rc then
     addon:SetDirtyFlags("FORCED")
---@debug@  
+--@debug@
     _G.print(C(me,"red"),": Failed addmembers ",errorMessage)
---@end-debug@  
+--@end-debug@
   end
 end
 function module:Dim(frame)
@@ -930,11 +936,11 @@ function module:Dim(frame)
 		frame.Level:SetTextColor(C.Grey())
 		frame.Summary:SetTextColor(C.Grey())
 		local stats=missionstats[frame]
-		if stats then 
+		if stats then
 			stats.Chance:SetTextColor(C.Grey())
 		end
 		local members=missionmembers[frame]
-		if members then 
+		if members then
 			for _,champion in pairs(members.Champions) do
         if champion.followerID then
 				  champion:Unlock()
@@ -943,7 +949,7 @@ function module:Dim(frame)
 			end
 		end
 		local rw=frame.Rewards[1]
-		if rw then 		
+		if rw then
 			rw.Icon:SetDesaturated(true)
 			rw.IconBorder:SetDesaturated(true)
 		end
@@ -951,7 +957,7 @@ end
 function module:UnDim(frame)
 		frame.Overlay:Hide()
 		local rw=frame.Rewards[1]
-		if rw then 		
+		if rw then
 			rw.Icon:SetDesaturated(false)
 			rw.IconBorder:SetDesaturated(false)
 		end
@@ -962,16 +968,16 @@ function module:AddMembers(frame)
   local members=missionmembers[frame]
   local threats=missionthreats[frame]
   if not stats or not members or not threats then
-    -- Called out of sync, just ignore 
-    return 
+    -- Called out of sync, just ignore
+    return
   end
 	local start=GetTime()
 	local mission=frame.info
   local missionID=mission and mission.missionID
   if not missionID then
---@debug@   
+--@debug@
     print("Missing mission or missionID for",frame:GetName(),mission)
---@end-debug@    
+--@end-debug@
     return
   end
 	local nrewards=#mission.rewards
@@ -989,7 +995,7 @@ function module:AddMembers(frame)
   			members.Champions[i].followerID=nil
   			members.Champions[i]:Hide()
 			end
-		end		
+		end
 		frame.Overlay:SetFrameLevel(20)
 		threats:Hide()
 		local perc=select(4,G.GetPartyMissionInfo(missionID))
@@ -998,7 +1004,7 @@ function module:AddMembers(frame)
 		return
 	end
 	local lastkey=missionKEYS[missionID]
-	local parties=addon:GetMissionParties(missionID)	
+	local parties=addon:GetMissionParties(missionID)
 	local party,key=parties:GetSelectedParty(lastkey)
 	if not party then
 	 party,key=parties:GetSelectedParty()
@@ -1008,17 +1014,17 @@ function module:AddMembers(frame)
 		local bestchance,uncappedchance=parties:GetChanceForKey(key),parties:GetChanceForKey(parties.uncappedkey)
 		ps=(bestchance==uncappedchance) and UNCAPPED_PERC or CAPPED_PERC
 	end
-  if type(mission.durationSeconds)~="number" then 
+  if type(mission.durationSeconds)~="number" then
 	--@debug@
-  	DevTools_Dump(mission) 
+  	DevTools_Dump(mission)
 	--@end-debug@
- 		mission.durationSeconds=0 
+ 		mission.durationSeconds=0
  	end
-	if type(party.timeseconds)~="number" then 
+	if type(party.timeseconds)~="number" then
 	--@debug@
-		DevTools_Dump(party) 
+		DevTools_Dump(party)
 	--@end-debug@
-		party.timeseconds=mission.durationSeconds 
+		party.timeseconds=mission.durationSeconds
 	end
 	if party.timeseconds ~= mission.durationSeconds then
 		local color=party.timeseconds > mission.durationSeconds and RED_FONT_COLOR_CODE or GREEN_FONT_COLOR_CODE
@@ -1353,7 +1359,7 @@ function module:AdjustMissionTooltip(this,...)
 		if k=="description" then v =v:sub(1,10) end
 		tip:AddDoubleLine(k,v,addon.colors("Orange",color))
 	end
---@end-debug@	
+--@end-debug@
 	self:SafeAddMembers(this)
 	tip:Show()
 end
@@ -1361,11 +1367,11 @@ function module:RawMissionClick(this,button)
 	local mission=this.info or this.missionInfo -- callable also from mission page
 	local missionID = mission and mission.missionID
 	if not missionID then return end
-  if ChatEdit_TryInsertChatLink(G.GetMissionLink(missionID)) then return end	
+  if ChatEdit_TryInsertChatLink(G.GetMissionLink(missionID)) then return end
 	local shift,ctrl=IsShiftKeyDown(),IsControlKeyDown()
 	local key=missionKEYS[mission.missionID]
 	if button=="LeftButton" and shift then
-    if not addon:GetBoolean("QUICKSTART") and not addon.db.global.changedkeywarned then	
+    if not addon:GetBoolean("QUICKSTART") and not addon.db.global.changedkeywarned then
       addon:Popup(safeformat(L["You now need to press both %s and %s to start mission"],SHIFT_KEY_TEXT,CTRL_KEY_TEXT))
       addon.db.global.changedkeywarned=true
     end
@@ -1393,7 +1399,7 @@ function module:RawMissionClick(this,button)
 			self:UnDim(this)
 		end
 --@debug@
-		print("Calling OHF:UpdateMissions")  
+		print("Calling OHF:UpdateMissions")
 --@end-debug@
 		OHF:UpdateMissions()
 		this:GetScript("OnEnter")(this)

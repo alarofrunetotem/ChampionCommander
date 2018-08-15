@@ -30,7 +30,7 @@ local tonumber=tonumber
 local type=type
 local OHF=BFAMissionFrame
 local OHFMissionTab=BFAMissionFrame.MissionTab --Container for mission list and single mission
-local OHFMissions=BFAMissionFrame.MissionTab.MissionList -- same as OrderHallMissionFrameMissions Call Update on this to refresh Mission Listing
+local OHFMissions=BFAMissionFrame.MissionTab.MissionList -- same as BFAMissionFrameMissions Call Update on this to refresh Mission Listing
 local OHFFollowerTab=BFAMissionFrame.FollowerTab -- Contains model view
 local OHFFollowerList=BFAMissionFrame.FollowerList -- Contains follower list (visible in both follower and mission mode)
 local OHFFollowers=BFAMissionFrameFollowers -- Contains scroll list
@@ -39,6 +39,10 @@ local OHFMapTab=BFAMissionFrame.MapTab -- Contains quest map
 local OHFCompleteDialog=BFAMissionFrameMissions.CompleteDialog
 local OHFMissionScroll=BFAMissionFrameMissionsListScrollFrame
 local OHFMissionScrollChild=BFAMissionFrameMissionsListScrollFrameScrollChild
+local OHFTOPLEFT=OHF.GarrCorners.TopLeftGarrCorner
+local OHFTOPRIGHT=OHF.GarrCorners.TopRightGarrCorner
+local OHFBOTTOMLEFT=OHF.GarrCorners.BottomTopLeftGarrCorner
+local OHFBOTTOMRIGHT=OHF.GarrCorners.BottomRightGarrCorner
 local followerType=LE_FOLLOWER_TYPE_GARRISON_8_0
 local garrisonType=LE_GARRISON_TYPE_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
@@ -106,11 +110,6 @@ end
 
 -- End Template - DO NOT MODIFY ANYTHING BEFORE THIS LINE
 --*BEGIN
-
--- It's here because localization gets not sync'd
---@debug@
-_G.GAME_LOCALE="itIT"
---@end-debug@
 
 -- Dependency check
 
