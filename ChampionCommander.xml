@@ -1,0 +1,385 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Script file="ChampionCommander.lua"/>
+	<Button name="BFAWhatsNew" inherits="UIPanelInfoButton" hidden="true" virtual="true">
+		<Size x="32" y="32"/>
+		<Scripts>
+			<OnLeave function="GameTooltip_Hide"/>
+			<OnEnter>
+				if self.tooltip then
+					GameTooltip:SetOwner(self,"ANCHOR_TOPLEFT")
+					GameTooltip:AddLine(type(self.tooltip)=="function" and self.tooltip() or self.tooltip)
+					GameTooltip:Show()
+				end
+			</OnEnter>
+		</Scripts>
+	</Button>
+	<Button name="BFAMissionButton" inherits="OrderHallMissionListButtonTemplate" virtual="true">
+		<Size x="832" y="75"/>
+		<KeyValues>
+			<KeyValue key="IsCustom" value="true" type="boolean"/>
+		</KeyValues>
+	</Button>
+
+	<Frame parentKey="Stats" name="BFAStats" virtual="true" enableMouse="true" mixin="ChampionCommanderMixin">
+		<Size x="110" y="75"/>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Expire" justifyV="TOP" justifyH="CENTER" inherits="GameFontHighlightSmallOutline">
+					<Size x="95" y="30"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="5" y="-10"/>
+						<Anchor point="TOPRIGHT" x="5" y="-10"/>
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Chance" justifyV="BOTTOM" justifyH="CENTER" inherits="NumberFontNormalHuge">
+					<Size x="95" y="30"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="5" y="10"/>
+						<Anchor point="BOTTOMRIGHT" x="5" y="10"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+<!--@debug@-->
+			<OnEnter method="Dump"/>
+<!--@end-debug@-->
+			<OnLeave method="HideTT"/>
+		</Scripts>
+	</Frame>
+	<Frame name="BFAThreatsCounters" virtual="true" mixin="ChampionCommanderMixin" enableMouse="true" inherits="GarrisonAbilityCounterTemplate">
+		<Scripts>
+			<OnEnter method="CounterTooltip"/>
+			<OnLeave method="HideTT"/>
+		</Scripts>
+	</Frame>
+	<Frame parentKey="Threats" name="BFAThreats" virtual="true" mixin="ChampionCommanderMixin,ChampionCommanderMixinThreats" enableMouse="true">
+ 		<Size x="128" y="24"/>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Cost" justifyV="CENTER" justifyH="LEFT" inherits="GameFontHighlightSmallOutline">
+					<Size x="250" y="20"/>
+				</FontString>
+				<FontString parentKey="XP" justifyV="CENTER" justifyH="LEFT" inherits="GameFontHighlightSmallOutline">
+					<Size x="250" y="20"/>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad method="OnLoad"/>
+<!--@debug@-->
+			<OnEnter>
+				self:Dump(self:GetParent())
+			</OnEnter>
+<!--@end-debug@-->
+			<OnLeave method="HideTT"/>
+		</Scripts>
+	</Frame>
+	<Frame name="BFAMembers" mixin="ChampionCommanderMixin,ChampionCommanderMixinMembers" virtual="true" enableMouse="false">
+		<Size x="1" y="70"/>
+		<Frames>
+			<Frame parentKey="NotReady" strata="HIGH">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="-5" y="0"/>
+					<Anchor point="BOTTOMRIGHT" x="5" y="0"/>
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString parentKey="Text" justifyV="CENTER" justifyH="CENTER" inherits="GameFontNormalOutline" text="GARRISON_PARTY_NOT_ENOUGH_CHAMPIONS">
+							<Anchors>
+								<Anchor point="TOPLEFT" x="5" y="0"/>
+								<Anchor point="BOTTOMRIGHT" x="-5" y="0"/>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame parentArray="Champions" inherits="BFAFollowerIcon" />
+		</Frames>
+		<Scripts>
+			<OnLoad method="OnLoad"/>
+			<OnLeave method="HideTT"/>
+			<OnShow method="OnShow"/>
+		</Scripts>
+	</Frame>
+	<Frame name="BFATroop" enableMouse="true" inherits="OrderHallClassSpecCategoryTemplate" virtual="true" />
+	<Frame name="BFAFollowerIcon" mixin="ChampionCommanderMixin,ChampionCommanderMixinFollowerIcon" enableMouse="true" inherits="GarrisonFollowerPortraitTemplate" virtual="true" >
+		<Size x="52" y="60"/>
+		<Scripts>
+			<OnEnter method="ShowTooltip"/>
+			<OnLeave method="HideTooltip"/>
+			<OnMouseUp method="Click"/>
+		</Scripts>
+		<Layers>
+			<Layer level="OVERLAY">
+				<!-- Texture parentKey="Lock" file="Interface/CHATFRAME/UI-ChatFrame-LockIcon"-->
+				<Texture parentKey="LockIcon" file="Interface/PETBATTLES/PetBattle-LockIcon">
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="10" y="10"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer>
+				<Texture parentKey="IgnoreIcon" file="Interface/PETBATTLES/DeadPetIcon">
+					<Anchors>
+						<Anchor point="CENTER" x="0" y="1"/>
+					</Anchors>
+				</Texture>
+
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="Durability" inherits="GarrisonMissionFollowerDurabilityFrameTemplate" hidden="true">
+				<Anchors>
+					<Anchor point="BOTTOM" x="0" y="4"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+	</Frame>
+	<Frame name="BFAFollowerPortrait" mixin="ChampionCommanderMixinTooltip" enableMouse="true" inherits="GarrisonMissionPageFollowerTemplate" virtual="true" >
+		<Size x="161" y="58"/>
+	</Frame>
+	<Frame name="BFAMiniMissionButton" mixin="ChampionCommanderMixinTooltip" inherits="GarrisonLandingPageReportMissionTemplate" virtual="true">
+		<Size x="400" y="60"/>
+		<Frames>
+			<Frame parentKey="Followers" inherits="BFAMembers" hidden="false">
+				<Anchors>
+					<Anchor point="RIGHT" x="-10" y="0"/>
+				</Anchors>
+			</Frame>>
+		</Frames>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Perc" justifyV="CENTER" justifyH="RIGHT" inherits="SystemFont_Huge1_Outline" text="100%">
+					<Size x="70" y="60"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				for i=1,3 do
+					self.Followers.Champions[i]:SetScale(0.8)
+				end
+			</OnLoad>
+			<OnLeave function="GameTooltip_Hide"/>
+			<OnEnter method="OnEnter"/>
+		</Scripts>
+	</Frame>
+	<Button name="BFAFollowerButton" inherits="GarrisonFollowerButtonTemplate" virtual="true">
+		<Size x="260" y="56"/>
+	</Button>
+	<Button name="BFAUpgradeButton" enableMouse="true" virtual="true" inherits="GarrisonMissionListButtonRewardTemplate">
+		<Size x="50" y="50"/>
+	</Button>
+	<Button name="BFAPin" virtual="true" enableMouse="true" hidden="true">
+		<Size x="64" y="64" />
+		<Anchors>
+			<Anchor point="TOPLEFT" relativeTo="OrderHallMissionFrame" relativePoint="TOPRIGHT" x="-15" y="43"/>
+		</Anchors>
+		<NormalTexture file="Interface\CHATFRAME\UI-ChatIcon-ScrollUp-Up">
+			<Size x="66" y="66" />
+		</NormalTexture>
+		<HighlightTexture file="Interface\CHATFRAME/UI-ChatIcon-BlinkHilight" alphaMode="ADD">
+			<Size x="60" y="60" />
+		</HighlightTexture>
+		<Scripts>
+			<OnLeave>
+				GameTooltip:Hide()
+			</OnLeave>
+			<OnEnter>
+				GameTooltip:SetOwner(self,"ANCHOR_TOPRIGHE")
+				if not self.tooltip then return end
+				GameTooltip:SetText(self.tooltip)
+				GameTooltip:Show()
+			</OnEnter>
+		</Scripts>
+	</Button>
+	<Frame name="BFABaseFrame" mixin="ChampionCommanderMixinTooltip" inherits="TooltipBorderedFrameTemplate" virtual="true">
+		<Size x="200" y="30"/>
+		<KeyValues>
+			<KeyValue key="movable" value="false" type="boolean"/>
+		</KeyValues>
+		<Frames>
+			<Button parentKey="Close" inherits="UIPanelCloseButton">
+				<Size x="32" y="32"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+						<Offset x="0" y="0"/>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLeave function="GameTooltip_Hide"/>
+					<!--
+					<OnEnter method="OnEnter"/>
+					 -->
+				</Scripts>
+			</Button>
+		</Frames>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Title" justifyV="TOP" justifyH="CENTER" inherits="GameFontHighlightOutline" text="ChampionCommander">
+					<Size x="240" y="20"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="16" y="-5"/>
+						<Anchor point="TOPRIGHT" x="-32" y="-5"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="HIGHLIGHT">
+				<Texture parentKey="Highlight" hidden="true" file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD">
+					<Size x="240" y="20"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-5"/>
+						<Anchor point="TOPRIGHT" x="0" y="-5"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLeave function="GameTooltip_Hide"/>
+			<OnEnter method="OnEnter"/>
+			<OnDragStart method="OnDragStart"/>
+			<OnDragStop method="OnDragStop"/>
+		</Scripts>
+	</Frame>
+	<Frame name="BFANavigator" mixin="ChampionCommanderMixinTooltip" virtual="true">
+		<Size x="200" y="30"/>
+		<Frames>
+			<Button parentKey="Close" mixin="ChampionCommanderMixinTooltip" inherits="UIPanelCloseButton">
+				<Size x="32" y="32"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="5" y="5"/>
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="tooltip" value="CLOSE" type="string"/>
+				</KeyValues>
+				<Scripts>
+					<OnLeave function="GameTooltip_Hide"/>
+					<OnEnter method="OnEnter"/>
+				</Scripts>
+			</Button>
+			<Button parentKey="Home" mixin="ChampionCommanderMixinTooltip" inherits="UIPanelCloseButton">
+				<Size x="16" y="16"/>
+				<Anchors>
+					<Anchor point="TOPLEFTT" x="0" y="0"/>
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="tooltip" value="HOME" type="string"/>
+				</KeyValues>
+				<NormalTexture file="Interface\BUTTONS\UI-HomeButton"/>
+				<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+				<Scripts>
+					<OnLeave function="GameTooltip_Hide"/>
+					<OnEnter method="OnEnter"/>
+					<OnClick></OnClick>
+				</Scripts>
+			</Button>
+			<Button parentKey="Forward">
+				<Size x="32" y="32"/>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT"/>
+				</Anchors>
+				<NormalTexture file="Interface\Glues\Common\Glue-RightArrow-Button-Up"/>
+				<PushedTexture file="Interface\Glues\Common\Glue-RightArrow-Button-Down"/>
+				<HighlightTexture file="Interface\Glues\Common\Glue-RightArrow-Button-Highlight" alphaMode="ADD"/>
+			</Button>
+			<Button parentKey="Backward">
+				<Size x="32" y="32"/>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT"/>
+				</Anchors>
+				<NormalTexture file="Interface\Glues\Common\Glue-LeftArrow-Button-Up"/>
+				<PushedTexture file="Interface\Glues\Common\Glue-LeftArrow-Button-Down"/>
+				<HighlightTexture file="Interface\Glues\Common\Glue-LeftArrow-Button-Highlight" alphaMode="ADD"/>
+			</Button>
+		</Frames>
+	</Frame>
+	<Frame name="BFAMenu" mixin="ChampionCommanderMixin,ChampionCommanderMixinMenu" inherits="BFABaseFrame" virtual="true">
+		<KeyValues>
+			<KeyValue key="PinOpen" value="true" type="boolean"/>
+			<KeyValue key="DefaultWidth" value="220" type="number"/>
+		</KeyValues>
+		<Frames>
+			<Button parentKey="Tutorial" inherits="BFAWhatsNew">
+				<Size x="15" y="16"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="2" y="-8"/>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Animations>
+			<AnimationGroup parentKey="Pulse" looping="BOUNCE">
+				<Scale childKey="Tutorial" smoothing="NONE" duration="1" order="1" fromScaleX="1" fromScaleY="1" toScaleX="2" toScaleY="2"/>
+				<Scale childKey="Tutorial" smoothing="NONE" duration="1" order="2" fromScaleX="2" fromScaleY="2" toScaleX="1" toScaleY="1"/>
+			</AnimationGroup>
+		</Animations>
+		<Scripts>
+			<OnLoad method="OnLoad"/>
+		</Scripts>
+	</Frame>
+	<CheckButton name="BFATab" mouseEnable="true" virtual="true" inherits="SpellBookSkillLineTabTemplate">
+		<Size x="100" y="50" />
+		<KeyValues>
+			<KeyValue key="flag" value="" type="string"/>
+			<KeyValue key="tipo" value="" type="string"/>
+		</KeyValues>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture parentKey="Icon" file="Interface\ACHIEVEMENTFRAME\UI-ACHIEVEMENT-SHIELDS-NOPOINTS">
+					<Size x="48" y="48"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="0"/>
+					</Anchors>
+					<TexCoords left="0" right="0.5" top="0.5" bottom="1"/>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Name" text="Example" justifyV="CENTER" justifyH="LEFT" inherits="GameFontHighlightSmallOutline">
+					<Size x="95" y="30"/>
+					<Anchors>
+						<Anchor point="LEFT" x="40" y="10"/>
+						<Anchor point="RIGHT" x="40" y="10"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</CheckButton>
+	<Frame name="BFASpinner" parentKey="Spinner" virtual="true" inherits="LoadingSpinnerTemplate">
+		<Scripts>
+			<OnLoad>
+				self.Start=function(self) self:Show() self.Anim:Play() end
+				self.Stop=function(self) self.Anim:Stop() self:Hide() end
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="BFAAlertFrameTemplate" inherits="GarrisonStandardFollowerAlertFrameTemplate" virtual="true"/>
+	<!--
+	GarrisonFollowerXPGainTemplate
+	GarrisonFollowerXPBarTemplate
+	GarrisonFollowerLevelUpTemplate
+	-->
+	<Frame name="BFAFollowerTip" inherits="GarrisonFollowerTooltipTemplate" movable="false" toplevel="true">
+		<Size x="260" y="122"/>
+		<Anchors>
+			<Anchor point="BOTTOM" x="0" y="160"/>
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentArray="Lines" inherits="GameFontNormal" justifyH="LEFT" text="test">
+					<Size x="300" y="0"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" x="5" y="100"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>
