@@ -1,0 +1,42 @@
+package-as: ChampionCommander
+enable-nolib-creation: no
+
+externals:
+	libs/LibInit:
+		url: https://github.com/alarofrunetotem/LibInit.git/LibInit
+		tag: latest
+
+	libs/Ace3/AceBucket-3.0:
+		url: svn://svn.wowace.com/wow/ace3/mainline/trunk/AceBucket-3.0
+		tag: latest
+
+	libs/Ace3/AceSerializer-3.0:
+		url: svn://svn.wowace.com/wow/ace3/mainline/trunk/AceSerializer-3.0
+		tag: latest
+
+	libs/LibItemUpgradeInfo-1.0:
+		url: git://git.wowace.com/wow/libitemupgradeinfo-1-0/mainline.git
+		tag: latest
+
+	libs/LibDialog-1.0:
+		url: https://repos.wowace.com/wow/libdialog-1-0
+		tag: latest
+
+#move-folders:
+#	GarrisonCommander/GarrisonCommander-Broker: GarrisonCommander-Broker
+#	GarrisonCommander/GarrisonCommander-Auction: GarrisonCommander-Auction
+
+#manual-changelog:
+#		filename: CHANGELOG.txt
+#		markup-type: textile
+
+ignore:
+- .buildpath
+- .project
+- .gitignore
+- .settings
+- Debug.lua
+- info.txt
+- ChampionCommander.template.lua
+- tree.json
+- wohead.sh
