@@ -49,8 +49,8 @@ local garrisonType=LE_GARRISON_TYPE_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
 local MAX_LEVEL=110
 
-local ShowTT=OrderHallCommanderMixin.ShowTT
-local HideTT=OrderHallCommanderMixin.HideTT
+local ShowTT=ChampionCommanderMixin.ShowTT
+local HideTT=ChampionCommanderMixin.HideTT
 
 local dprint=print
 local ddump
@@ -68,8 +68,8 @@ dprint=function() end
 ddump=function() end
 local print=function() end
 --@end-non-debug@]===]
-local LE_FOLLOWER_TYPE_GARRISON_7_0=LE_FOLLOWER_TYPE_GARRISON_7_0
-local LE_GARRISON_TYPE_7_0=LE_GARRISON_TYPE_7_0
+local LE_FOLLOWER_TYPE_GARRISON_8_0=LE_FOLLOWER_TYPE_GARRISON_8_0
+local LE_GARRISON_TYPE_8_0=LE_GARRISON_TYPE_8_0
 local GARRISON_FOLLOWER_COMBAT_ALLY=GARRISON_FOLLOWER_COMBAT_ALLY
 local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
@@ -113,7 +113,7 @@ local missingMessage=L["A requested window is not open\nTutorial will resume as 
 local tutorials
 tutorials={
   {
-    text=L["Welcome to a new release of OrderHallCommander\nPlease follow this short tutorial to discover all new functionalities.\nYou will not regret it"],
+    text=L["Welcome to the first release of ChampionCommander\nRight now it's just an OrderHallCommander clone\nPlease follow this short tutorial to discover all new functionalities.\nYou will not regret it"],
     anchor="CENTER",
     parent=OHF,
     noglow=true
@@ -139,7 +139,7 @@ tutorials={
   {
     text=function()
         local c=C(L["Prefer high durability"], fcolor)
-        return format(L["Usually OrderHallCOmmander tries to use troops with the lowest durability in order to let you enque new troops request as soon as possible.\nChecking %1$s reverse it and OrderHallCOmmander will choose for each mission troops with the highest possible durability"],
+        return format(L["Usually ChampionCommander tries to use troops with the lowest durability in order to let you enque new troops request as soon as possible.\nChecking %1$s reverse it and ChampionCommander will choose for each mission troops with the highest possible durability"],
         c)
     end,
     parent=function() return module:GetMenuItem("PREFERHIGH") end,
@@ -212,21 +212,21 @@ tutorials={
   },
   {
     text="When you have locked some followers to missions, you can start the mission without going to the mission page.\nShift-Clicking this button will scan missions from top to bottom (so, sort order IS important) and start the first one with at least one locked follower",
-    parent=function() return module:GetMenuItem("BUTTON1") end,    
+    parent=function() return module:GetMenuItem("BUTTON1") end,
     anchor="BOTTOM",
     level=-1,
     onmissing=missingMessage,
   },
   {
     text="You can quickly remove all locks and bans clicking here",
-    parent=function() return module:GetMenuItem("BUTTON2") end,    
+    parent=function() return module:GetMenuItem("BUTTON2") end,
     anchor="BOTTOM",
     level=-1,
     onmissing=missingMessage,
   },
   {
     text="If you cant see missions filled, maybe you have a too restrictive set of switches checked on.\nClicking here reset BFA to a very permissive setup.\nTry this before filing a ticket, please :)",
-    parent=function() return module:GetMenuItem("BUTTON3") end,    
+    parent=function() return module:GetMenuItem("BUTTON3") end,
     anchor="BOTTOM",
     level=-1,
     onmissing=missingMessage,
@@ -234,10 +234,10 @@ tutorials={
   --[[
   {
     back=1,
-    action=function()  
-      if OHFButtons[1] then 
-        addon:GetMissionlistModule():RawMissionClick(OHFButtons[1],"LeftButton") 
-      end 
+    action=function()
+      if OHFButtons[1] then
+        addon:GetMissionlistModule():RawMissionClick(OHFButtons[1],"LeftButton")
+      end
     end,
     anchor="TOP",
     text=L["If you dont understand why BFA choosed a setup for a mission, you can request a full analysis.\nAnalyze party will show all the possible combinations and how BFA evaluated them"],
@@ -247,9 +247,9 @@ tutorials={
   },
   {
     back=2,
-    action=function() 
+    action=function()
       if OHFMissionPage:IsVisible() and addon:GetMissionpageModule():GetAnalyzeButton() then
-        addon:GetMissionpageModule():GetAnalyzeButton():Click()        
+        addon:GetMissionpageModule():GetAnalyzeButton():Click()
       end
     end,
     anchor="RIGHT",
@@ -271,9 +271,9 @@ tutorials={
     parent=OHF,
     text=format(L["Thank you for reading this, enjoy %s"],me),
     action=function() addon.db.global.tutorialStep=#tutorials end
-  }  
-  
-  
+  }
+
+
 }
 local Clicker
 local Enhancer
@@ -282,7 +282,7 @@ local function callOrUse(data)
     return data()
   else
     return data
-  end    
+  end
 end
 local function plate(self,tutorial)
   local text
@@ -340,7 +340,7 @@ local function plate(self,tutorial)
     if tutorial.noglow then
       Enhancer:Hide()
     else
-      if o then 
+      if o then
         Enhancer:SetParent(o)
         Enhancer:ClearAllPoints()
         if o2 then
@@ -353,7 +353,7 @@ local function plate(self,tutorial)
           else
             Enhancer:SetAllPoints()
           end
-        else  
+        else
           Enhancer:SetAllPoints()
         end
         Enhancer:SetFrameStrata(o:GetFrameStrata())
@@ -371,7 +371,7 @@ local function plate(self,tutorial)
     text=tutorial
   end
   HelpPlateTooltip.Text:SetText(C(me .. ' ' .. addon.version,'Green') .. "\n" .. text .. "\n\n" )
-  HelpPlateTooltip:Show()  
+  HelpPlateTooltip:Show()
   return rc
   --HelpPlateTooltip:SetScript("OnMouseDown",function(this) this:SetScript("OnMouseDown",this.oldClick) HelpPlate_TooltipHide() end)
 end
@@ -398,15 +398,15 @@ end
 function module:Backward()
   currentTutorialIndex=math.max(currentTutorialIndex-1,1)
   self:Show()
-end  
+end
 function module:Forward()
   currentTutorialIndex=currentTutorialIndex+1
   self:Show()
-end  
+end
 function module:Home()
   currentTutorialIndex=1
   self:Show()
-end  
+end
 function addon:NeedsTutorial()
   if not addon.db.global.tutorialStep then addon.db.global.tutorialStep =1 end
   if addon.db.global.tutorialStep < #tutorials then
@@ -421,28 +421,28 @@ function module:Show(opening)
   addon.db.global.tutorialStep=currentTutorialIndex
 --@debug@
   _G.print("Tutorial step ",addon.db.global.tutorialStep,' of ', #tutorials)
---@end-debug@  
+--@end-debug@
   if tutorial then
     if opening and tutorial.back then
       currentTutorialIndex=currentTutorialIndex - tutorial.back
       return self:Show()
     end
-    
+
     if plate(self,tutorial) then
       Clicker.Forward:Hide()
-    elseif currentTutorialIndex < #tutorials 
-    then Clicker.Forward:Show() 
-    else Clicker.Forward:Hide() 
+    elseif currentTutorialIndex < #tutorials
+    then Clicker.Forward:Show()
+    else Clicker.Forward:Hide()
     end
-    if currentTutorialIndex > 1 then 
-      Clicker.Backward:Show() 
-      Clicker.Home:Show() 
-    else 
-      Clicker.Backward:Hide() 
-      Clicker.Home:Hide() 
+    if currentTutorialIndex > 1 then
+      Clicker.Backward:Show()
+      Clicker.Home:Show()
+    else
+      Clicker.Backward:Hide()
+      Clicker.Home:Hide()
     end
     return
-  else 
+  else
     self:Terminate()
   end
 end

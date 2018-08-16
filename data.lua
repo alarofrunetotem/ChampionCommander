@@ -47,8 +47,8 @@ local garrisonType=LE_GARRISON_TYPE_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
 local MAX_LEVEL=110
 
-local ShowTT=OrderHallCommanderMixin.ShowTT
-local HideTT=OrderHallCommanderMixin.HideTT
+local ShowTT=ChampionCommanderMixin.ShowTT
+local HideTT=ChampionCommanderMixin.HideTT
 
 local dprint=print
 local ddump
@@ -66,8 +66,8 @@ dprint=function() end
 ddump=function() end
 local print=function() end
 --@end-non-debug@]===]
-local LE_FOLLOWER_TYPE_GARRISON_7_0=LE_FOLLOWER_TYPE_GARRISON_7_0
-local LE_GARRISON_TYPE_7_0=LE_GARRISON_TYPE_7_0
+local LE_FOLLOWER_TYPE_GARRISON_8_0=LE_FOLLOWER_TYPE_GARRISON_8_0
+local LE_GARRISON_TYPE_8_0=LE_GARRISON_TYPE_8_0
 local GARRISON_FOLLOWER_COMBAT_ALLY=GARRISON_FOLLOWER_COMBAT_ALLY
 local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
