@@ -37,6 +37,7 @@ local OHFFollowerList=BFAMissionFrame.FollowerList -- Contains follower list (vi
 local OHFFollowers=BFAMissionFrameFollowers -- Contains scroll list
 local OHFMissionPage=BFAMissionFrame.MissionTab.MissionPage -- Contains mission description and party setup
 local OHFMapTab=BFAMissionFrame.MapTab -- Contains quest map
+local OHFMissionFrameMissions=BFAMissionFrameMissions
 local OHFCompleteDialog=BFAMissionFrameMissions.CompleteDialog
 local OHFMissionScroll=BFAMissionFrameMissionsListScrollFrame
 local OHFMissionScrollChild=BFAMissionFrameMissionsListScrollFrameScrollChild
@@ -553,6 +554,7 @@ function module:GetTroopsFrame()
 		frame.Buttons={}
 		TroopsHeader=frame
 	end
+	TroopsHeader:Hide()
 	return TroopsHeader
 end
 

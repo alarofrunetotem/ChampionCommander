@@ -37,6 +37,7 @@ local OHFFollowerList=BFAMissionFrame.FollowerList -- Contains follower list (vi
 local OHFFollowers=BFAMissionFrameFollowers -- Contains scroll list
 local OHFMissionPage=BFAMissionFrame.MissionTab.MissionPage -- Contains mission description and party setup
 local OHFMapTab=BFAMissionFrame.MapTab -- Contains quest map
+local OHFMissionFrameMissions=BFAMissionFrameMissions
 local OHFCompleteDialog=BFAMissionFrameMissions.CompleteDialog
 local OHFMissionScroll=BFAMissionFrameMissionsListScrollFrame
 local OHFMissionScrollChild=BFAMissionFrameMissionsListScrollFrameScrollChild
@@ -697,7 +698,7 @@ end
 local stopper=addon:NewModule("stopper","AceHook-3.0")
 function addon:UpdateStop(n)
 	stopper:UnhookAll()
-	stopper:RawHookScript(OrderHallMissionFrameMissions,"OnUpdate",GarrisonMissionListMixin.OnUpdate)
+	stopper:RawHookScript(OHFMissionFrameMissions,"OnUpdate",GarrisonMissionListMixin.OnUpdate)
 end
 function module:OptionsButton()
   local level=OHFMissionScroll:GetFrameLevel()+5
@@ -721,12 +722,22 @@ function module:OptionsButton()
     f:SetFrameLevel(level)
   end
 end
+function module:DisplayMenu()
+  if OHF.MapTab:IsVisible() then
+    self.TroopsStatusInfo:Hide()
+    self.ChampionsStatusInfo:Hide()
+    CloseMenu()
+    return
+  end
+  if addon.db.profile.showmenu then OpenMenu() else CloseMenu() end
+end
 function module:InitialSetup(this)
+  if OHF.MapTab:IsVisible() then return end
 	collectgarbage("stop")
 	if type(addon.db.global.warn01_seen)~="number" then	addon.db.global.warn01_seen =0 end
 	if type(addon.db.global.warn02_seen)~="number" then	addon.db.global.warn02_seen =0 end
 	self:Menu()
-	if addon.db.profile.showmenu then OpenMenu() else CloseMenu() end
+	self:DisplayMenu()
 	self:Unhook(this,"OnShow")
 	self:SecureHookScript(this,"OnShow","MainOnShow")
 	self:SecureHookScript(this,"OnHide","MainOnHide")
@@ -832,6 +843,7 @@ function module:EvOff()
 	self:Unhook(OHFMissions,"Update")
 end
 function module:MainOnShow()
+  self:DisplayMenu()
 	addon:GetResources(true)
 	--self:Unhook(OHFMissions,"Update")
 	addon:RefreshFollowerStatus()

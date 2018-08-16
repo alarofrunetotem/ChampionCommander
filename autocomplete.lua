@@ -37,6 +37,7 @@ local OHFFollowerList=BFAMissionFrame.FollowerList -- Contains follower list (vi
 local OHFFollowers=BFAMissionFrameFollowers -- Contains scroll list
 local OHFMissionPage=BFAMissionFrame.MissionTab.MissionPage -- Contains mission description and party setup
 local OHFMapTab=BFAMissionFrame.MapTab -- Contains quest map
+local OHFMissionFrameMissions=BFAMissionFrameMissions
 local OHFCompleteDialog=BFAMissionFrameMissions.CompleteDialog
 local OHFMissionScroll=BFAMissionFrameMissionsListScrollFrame
 local OHFMissionScrollChild=BFAMissionFrameMissionsListScrollFrameScrollChild
@@ -100,7 +101,7 @@ end
 -- End Template - DO NOT MODIFY ANYTHING BEFORE THIS LINE
 --*BEGIN
 local CompleteButton=OHFMissions.CompleteDialog.BorderFrame.ViewButton
-local followerType=LE_FOLLOWER_TYPE_GARRISON_7_0
+local followerType=LE_FOLLOWER_TYPE_GARRISON_8_0
 local pairs=pairs
 local format=format
 local strsplit=strsplit
@@ -110,7 +111,7 @@ local meafter={level=0,xp=0,xpMax=0}
 function module:OnInitialized()
 	local ref=OHFMissions.CompleteDialog.BorderFrame.ViewButton
 	local bt = CreateFrame('BUTTON',nil, ref, 'UIPanelButtonTemplate')
-	bt:SetText(L["HallComander Quick Mission Completion"])
+	bt:SetText(L["ChampionComander Quick Mission Completion"])
 	bt:SetWidth(bt:GetTextWidth()+10)
 	bt:SetPoint("CENTER",0,-50)
 	addon:ActivateButton(bt,"MissionComplete",L["Complete all missions without confirmation"])
