@@ -724,20 +724,20 @@ function module:OptionsButton()
 end
 function module:DisplayMenu()
   if OHF.MapTab:IsVisible() then
-    self.TroopsStatusInfo:Hide()
-    self.ChampionsStatusInfo:Hide()
-    CloseMenu()
-    return
+     if OHF.TroopsStatusInfo then OHF.TroopsStatusInfo:Hide() end
+     if OHF.ChampionsStatusInfo then OHF.ChampionsStatusInfo:Hide() end
+     if menu then menu:Hide() end
+  else
+     if OHF.TroopsStatusInfo then OHF.TroopsStatusInfo:Show() end
+     if OHF.ChampionsStatusInfo then OHF.ChampionsStatusInfo:Show() end
+     if addon.db.profile.showmenu then OpenMenu() else CloseMenu() end
   end
-  if addon.db.profile.showmenu then OpenMenu() else CloseMenu() end
 end
 function module:InitialSetup(this)
-  if OHF.MapTab:IsVisible() then return end
 	collectgarbage("stop")
 	if type(addon.db.global.warn01_seen)~="number" then	addon.db.global.warn01_seen =0 end
 	if type(addon.db.global.warn02_seen)~="number" then	addon.db.global.warn02_seen =0 end
 	self:Menu()
-	self:DisplayMenu()
 	self:Unhook(this,"OnShow")
 	self:SecureHookScript(this,"OnShow","MainOnShow")
 	self:SecureHookScript(this,"OnHide","MainOnHide")
@@ -821,6 +821,10 @@ end
 function module:RunMission()
 	return addon:GetAutopilotModule():RunMission()
 end
+function module:SelectTab(table,id)
+  print("SELECT",id)
+  self:DisplayMenu()
+end
 function module:EvOn()
 	for _,m in addon:IterateModules() do
 		if m.Events then m:Events() end
@@ -829,6 +833,7 @@ function module:EvOn()
 	self:SecureHook("Garrison_SortMissions","SortMissions")
 	self:Hook(OHFMissions,"UpdateMissions","OnUpdateMissions",true)
 	self:SecureHook(OHFMissions,"Update","OnUpdate")	--self:RawHook(OHFMissions,"Update","OnUpdate",true)
+	self:SecureHook(OHF,"SelectTab")
 end
 function module:EvOff()
 	for _,m in addon:IterateModules() do
@@ -841,6 +846,7 @@ function module:EvOff()
 	self:Unhook("Garrison_SortMissions")
 	self:Unhook(OHFMissions,"UpdateMissions")
 	self:Unhook(OHFMissions,"Update")
+  self:UnHook(OHF,"SelectTab")
 end
 function module:MainOnShow()
   self:DisplayMenu()

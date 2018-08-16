@@ -536,16 +536,16 @@ end
 local TroopsHeader
 function module:GetTroopsFrame()
 	if not TroopsHeader then
-		local frame=CreateFrame("Frame",nil,OHF)--,"TooltipBorderedFrameTemplate")
-		--frame.Background:Hide()
+		local frame=CreateFrame("Frame",nil,OHF,"TooltipBorderedFrameTemplate")
+		frame.Background:Hide()
 		frame.Top=frame:CreateTexture(nil,"BACKGROUND",nil,-1)
 		frame.Top:SetPoint("TOPLEFT")
 		frame.Top:SetPoint("BOTTOMRIGHT")
 		frame.Top:SetAtlas("_StoneFrameTile-Top")
 		frame:SetHeight(35)
 		frame:ClearAllPoints()
-		frame:SetPoint("BOTTOMLEFT",OHF,"TOPLEFT",0,-2)
-		frame:SetPoint("BOTTOMRIGHT",OHF,"TOPRIGHT",2,-2)
+		frame:SetPoint("BOTTOMLEFT",OHF,"BOTTOMLEFT",0,-2)
+		frame:SetPoint("BOTTOMRIGHT",OHF,"BOTTOMRIGHT",2,-2)
     frame:EnableMouse(true)
 		frame:RegisterForDrag("LeftButton")
 		frame:SetScript("OnDragStart",function(frame) if addon:GetBoolean('MOVEPANEL') then OHF:StartMoving() end end)
@@ -554,7 +554,6 @@ function module:GetTroopsFrame()
 		frame.Buttons={}
 		TroopsHeader=frame
 	end
-	TroopsHeader:Hide()
 	return TroopsHeader
 end
 
@@ -573,7 +572,7 @@ local function paintCat(frame)
 end
 local data={}
 function module:DrawKrokuls(main)
-  if true then return end
+  --if true then return end
   if #data==0 then
     for _,n in ipairs(addon:GetData("Krokuls")) do
       tinsert(data,n)
@@ -592,7 +591,7 @@ function module:DrawKrokuls(main)
       b:RegisterForClicks("LeftButtonDown")
       b:SetScript("PostClick",function()
         module:DrawKrokuls(main)
-        module:DrawTroopStatus(main)
+        --module:DrawTroopStatus(main)
       end)
       b:SetAttribute("type","item")
       b.Quantity:SetFontObject("GameFontNormalShadowHuge2")
@@ -607,9 +606,9 @@ function module:DrawKrokuls(main)
     b:Show()
   end
 end
-function module:DrawTroopStatus(main)
-  if true then return end
+function module:xDrawTroopStatus(main)
   categoryInfo = G.GetClassSpecCategoryInfo(followerType)
+  DevTools_Dump(categoryInfo)
   if not OHF:IsVisible() then return end
   local prevCategory, firstCategory;
   local nCategories=_G.XX or #categoryInfo
@@ -664,9 +663,9 @@ function module:DrawTroopStatus(main)
   end
 end
 function module:GARRISON_FOLLOWER_CATEGORIES_UPDATED()
-  local main=self:GetTroopsFrame()
-  self:DrawTroopStatus(main)
-  self:DrawKrokuls(main)
+  --local main=self:GetTroopsFrame()
+  --self:DrawTroopStatus(main)
+  --self:DrawKrokuls(main)
 end
 function addon:ParseFollowers()
 	return module:ParseFollowers()
@@ -735,7 +734,7 @@ function module:Events()
 	self:RegisterEvent("GARRISON_MISSION_COMPLETE_RESPONSE","Refresh")
 	self:RegisterEvent("GARRISON_MISSION_LIST_UPDATE","Refresh")
 	self:RegisterEvent("GARRISON_LANDINGPAGE_SHIPMENTS")
-  self:RegisterEvent("GARRISON_FOLLOWER_CATEGORIES_UPDATED")
+--  self:RegisterEvent("GARRISON_FOLLOWER_CATEGORIES_UPDATED")
 end
 function module:EventsOff()
 	self:UnregisterAllEvents()

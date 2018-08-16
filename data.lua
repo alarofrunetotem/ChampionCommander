@@ -99,6 +99,7 @@ end
 -- End Template - DO NOT MODIFY ANYTHING BEFORE THIS LINE
 --*BEGIN
 local fake={}
+--[[
 local data={
 	ArtifactNotes={
 		146745
@@ -132,7 +133,7 @@ local data={
 		140156, -- Blessing of the Order Increases Chance
 		139428, -- A Master Plan Increases Chance
 		143605, -- Strange Ball of Energy Increases Chance
-		139177, -- Shattered Soul +1 vitality 
+		139177, -- Shattered Soul +1 vitality
 		139420, -- Wild Mushroom +1 vitality
 		138883, -- Meryl's Conjured Refreshment +1 vitality
 		139376, -- Healing Well +1 vitality
@@ -177,7 +178,7 @@ local data={
 	 139419, -- Golden Banana
 	},
 	PALADIN={
-	 140760, -- Libram of Truth 
+	 140760, -- Libram of Truth
 	 140929, -- Squire's Oath
 	},
 	PRIEST={
@@ -185,7 +186,7 @@ local data={
 	 140156, -- Blessing of the order
 	},
 	ROGUE={
-	 139428, -- A Master Plan 
+	 139428, -- A Master Plan
 	 140931, -- Bandit wanted poster
 	},
 	SHAMAN={
@@ -195,13 +196,62 @@ local data={
 	},
 	WARLOCK={
 	 138412, -- Iresoul's Healthstone
-   140922, -- Imp Pact 
+   140922, -- Imp Pact
 	},
 	WARRIOR={
 	 139670, --  Scream of the Dead
 	},
 	Class={},
 	Equipments={}
+}
+--]]
+local data={
+  ArtifactNotes={
+  },
+  U850={
+  },
+  U880={
+  },
+  U900={
+  },
+  U925={
+  },
+  U950={
+  },
+  Buffs={
+  },
+  Xp={
+  },
+  Krokuls={
+  },
+  ANY={
+  },
+  DEATHKNIGHT={
+  },
+  DEMONHUNTER={
+  },
+  DRUID={
+  },
+  HUNTER={
+  },
+  MAGE={
+  },
+  MONK={
+  },
+  PALADIN={
+  },
+  PRIEST={
+  },
+  ROGUE={
+  },
+  SHAMAN={
+  },
+  WARLOCK={
+  },
+  WARRIOR={
+  },
+  Class={},
+  Equipments={}
 }
 local icon2item={}
 local itemquality={}
@@ -232,7 +282,7 @@ function module:AddItem(itemID)
 
 end
 function addon:GetItemIdByIcon(iconid)
-  if not icon2item[iconid] then icon2item[iconid] = select(2,pcall,GetItemIcon,iconid) end 
+  if not icon2item[iconid] then icon2item[iconid] = select(2,pcall,GetItemIcon,iconid) end
 	return icon2item[iconid]
 end
 function addon:GetItemQuality(itemid)
