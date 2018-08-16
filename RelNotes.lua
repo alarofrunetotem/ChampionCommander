@@ -15,6 +15,9 @@ self:Wiki([[
 == Silent mode ==
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
+self:RelNotes(1,0,0, [[
+Fix: Added libs
+]])
 self:RelNotes(0,1,2, [[
 Fix: Fixing various things as I discover them
 ]])
