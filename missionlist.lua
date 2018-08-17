@@ -734,6 +734,7 @@ function module:DisplayMenu()
   end
 end
 function module:InitialSetup(this)
+  if not OHF:ShouldShowMissionsAndFollowersTabs() then return end
 	collectgarbage("stop")
 	if type(addon.db.global.warn01_seen)~="number" then	addon.db.global.warn01_seen =0 end
 	if type(addon.db.global.warn02_seen)~="number" then	addon.db.global.warn02_seen =0 end
