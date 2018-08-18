@@ -1,5 +1,5 @@
 ## Interface: 80000
-## Title: ChampionCommander
+## Title: ChampionCommander (BFA mission assistant)
 ## Notes: Sending all follower to missions with just one click and more
 ## Notes-itIT: Invia tutti i seguaci in missione con un click e molto altro
 ## Notes-frFR: Vous aide au moment de choisir le droit utilisateur pour la bonne mission
@@ -16,7 +16,7 @@
 ## X-Revision: @project-abbreviated-hash@
 ## eMail: alar@aspide.it
 ## URL: http://wow.aspide.it
-## OptionalDeps: Ace3,LibInit,OrderHallCommander
+## OptionalDeps: Ace3,LibInit
 ## Dependencies: Blizzard_GarrisonUI,Blizzard_GarrisonTemplates
 ## DefaultState: Enabled
 ## LoadOnDemand: 1

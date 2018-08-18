@@ -670,7 +670,7 @@ end
 function addon:ParseFollowers()
 	return module:ParseFollowers()
 end
-local OrderHallCommanderAlertSystem=AlertFrame:AddSimpleAlertFrameSubSystem("BFAAlertFrameTemplate", alertSetup)
+local ChampionCommanderAlertSystem=AlertFrame:AddSimpleAlertFrameSubSystem("BFAAlertFrameTemplate", alertSetup)
 local shownAlerts={}
 function module:GARRISON_LANDINGPAGE_SHIPMENTS()
 	if not addon:GetBoolean('TROOPALERT') then return end
@@ -691,7 +691,7 @@ function module:GARRISON_LANDINGPAGE_SHIPMENTS()
 			if shipmentsReady > 0 then
 				if GetTime()>shownAlerts[signature] then
 					shownAlerts[signature]=GetTime()+60
-					OrderHallCommanderAlertSystem:AddAlert(name, GARRISON_LANDING_COMPLETED:format(shipmentsReady,shipmentsTotal), 110, 0, false,
+					ChampionCommanderAlertSystem:AddAlert(name, GARRISON_LANDING_COMPLETED:format(shipmentsReady,shipmentsTotal), 110, 0, false,
 						{isTroop=true,followerTypeID=4,portraitIconID=texture,quality=1}
 					)
 				end

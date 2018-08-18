@@ -143,7 +143,7 @@ function module:ShowFollowerData(this)
 	local tip=GameTooltip
 	tip:SetOwner(this,"CURSOR_ANCHOR")
 	tip:AddLine(this:GetName())
-	OrderHallCommanderMixin.DumpData(tip,addon:GetFollowerData(OHFFollowerTab.followerID))
+	ChampionCommanderMixin.DumpData(tip,addon:GetFollowerData(OHFFollowerTab.followerID))
 	tip:Show()
 end
 function module:GARRISON_FOLLOWER_UPGRADED(event,followerType,followerId)
@@ -165,8 +165,8 @@ do
 			i=0
 			previous=nil
 		else
-			if i > 13 then 
-				i=0 
+			if i > 13 then
+				i=0
 				left=left + 50
 				previous=nil
 			end
@@ -187,10 +187,10 @@ do
 			previous=nil
 			return
 		else
-			if i > 12 then 
-				i=0 
+			if i > 12 then
+				i=0
 				left=left - 50
-				previous=nil 
+				previous=nil
 			end
 			previous,rendered=self:RenderButton(id,left,previous)
 			if rendered then i=i+1 end
@@ -228,7 +228,7 @@ function addon:RefreshEquipments()
           tinsert(eqCount[eq.icon],followerInfo.followerID)
         end
       end
-    end   
+    end
   end
 end
 function module:RefreshUpgrades(model,followerID,displayID,showWeapon)

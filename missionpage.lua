@@ -99,7 +99,7 @@ local function safeformat(mask,...)
 end
 
 -- End Template - DO NOT MODIFY ANYTHING BEFORE THIS LINE
---*BEGIN 
+--*BEGIN
 local GARRISON_MISSION_AVAILABILITY2=C(GARRISON_MISSION_AVAILABILITY,'Yellow') .. " %s"
 local GARRISON_MISSION_ID="MissionID: %d"
 local button,expires,missionid,panel,listpanel
@@ -161,7 +161,7 @@ function module:Tooltip(frame)
   local tip=GameTooltip
   tip:SetOwner(frame,"ANCHOR_RIGHT")
   tip:AddLine(frame.key)
-  _G.OrderHallCommanderMixin.DumpData(tip,addon:GetSelectedParty(frame.info.missionID,frame.key))  
+  _G.ChampionCommanderMixin.DumpData(tip,addon:GetSelectedParty(frame.info.missionID,frame.key))
   tip:Show()
 end
 function module:TooltipList(frame)
@@ -185,20 +185,20 @@ function module:UpdateList(scrollFrame)
     button.Title:SetText(tuple)
     button.Status:SetText((f2 or '') .. ',' .. (f3 or '') )
     --local fType,followerID,value,slot=addon:ParsePermutationFollower(f1 or '',true)
-    local fType,cost,followerID,status,busy,durability,busyuntil=addon:UnpackFollower(f1)    
+    local fType,cost,followerID,status,busy,durability,busyuntil=addon:UnpackFollower(f1)
     button.Followers.Champions[1]:SetFollower(followerID):SmartHide()
     --local fType,followerID,value,slot=addon:ParsePermutationFollower(f2 or '',true)
-    local fType,cost,followerID,status,busy,durability,busyuntil=addon:UnpackFollower(f2)    
+    local fType,cost,followerID,status,busy,durability,busyuntil=addon:UnpackFollower(f2)
     button.Followers.Champions[2]:SetFollower(followerID):SmartHide()
     --local fType,followerID,value,slot=addon:ParsePermutationFollower(f3 or '',true)
-    local fType,cost,followerID,status,busy,durability,busyuntil=addon:UnpackFollower(f3)    
+    local fType,cost,followerID,status,busy,durability,busyuntil=addon:UnpackFollower(f3)
     button.Followers.Champions[3]:SetFollower(followerID):SmartHide()
     button.Followers:SetNotReady(false)
   end
   local totalHeight = numPermutations * scrollFrame.buttonHeight;
   local displayedHeight = numButtons * scrollFrame.buttonHeight;
-  HybridScrollFrame_Update(scrollFrame, totalHeight, displayedHeight);   
-  
+  HybridScrollFrame_Update(scrollFrame, totalHeight, displayedHeight);
+
 end
 function module:Update(scrollFrame)
   local offset = HybridScrollFrame_GetOffset(scrollFrame);
@@ -249,20 +249,20 @@ function module:Update(scrollFrame)
         button.Title:SetText(C(L["Not Selected"],"Silver"))
       else
         button.Title:SetText(text)
-      end      
+      end
       button.Status:SetText(party.reason)
       button:Show()
       for j=1,3 do
         local champion=button.Followers.Champions[j]
-        if party[j] then 
+        if party[j] then
           local status=G.GetFollowerStatus(party[j])
           if status== GARRISON_FOLLOWER_IN_PARTY then status = nil end
           champion:SetFollower(party[j],status)
           champion:Show()
-        else 
+        else
           champion:Hide()
         end
-      end 
+      end
      button.Followers:SetNotReady(false)
     else
       button.info=nil
@@ -272,7 +272,7 @@ function module:Update(scrollFrame)
   end
   local totalHeight = numParties * scrollFrame.buttonHeight;
   local displayedHeight = numButtons * scrollFrame.buttonHeight;
-  HybridScrollFrame_Update(scrollFrame, totalHeight, displayedHeight);  
+  HybridScrollFrame_Update(scrollFrame, totalHeight, displayedHeight);
 end
 local function fix(button,w)
       --button.Perc:SetWidth(50)
@@ -284,7 +284,7 @@ local function fix(button,w)
       button.Status:SetWidth(w-100)
       button.Status:SetJustifyH("LEFT")
       button:SetWidth(w-30)
-      button.BG:SetWidth(button:GetWidth())      
+      button.BG:SetWidth(button:GetWidth())
 end
 function addon:ShowPermutations()
   local panel=listpanel
@@ -318,23 +318,23 @@ function addon:ShowPermutations()
   panel.list.range=1
   module:UpdateList(scrollFrame)
   panel:Show()
-end  
+end
 local function click(self)
   if self.info and self.key then
     if IsShiftKeyDown() then
       local parties=addon:GetMissionParties(self.info.missionID)
       local candidate=parties.candidates[self.key]
-      parties.current=candidate      
+      parties.current=candidate
       for i=1,3 do
         addon:Print("Checking",addon:GetFollowerName(candidate[i]))
-        addon:Print(addon:ParsePermutationFollower(candidate['f'..i]))        
+        addon:Print(addon:ParsePermutationFollower(candidate['f'..i]))
         addon:Print(parties:SatisfyCondition(candidate,i))
       end
-    end 
+    end
     module:FillMissionPage(self.info,self.key)
-  else 
-  addon:Print(self:GetName(),"No mission data") 
-  end 
+  else
+  addon:Print(self:GetName(),"No mission data")
+  end
 end
 function module:ClearParty()
   OHF:ClearParty()
@@ -369,7 +369,9 @@ function module:Analyze(mission)
 --      button.BG:SetWidth(button:GetWidth())
 --      button.Title:SetWidth(button:GetWidth()-button.Perc:GetWidth())
 --      button.Status:SetWidth(button:GetWidth()-button.Perc:GetWidth())
+--@debug@
       button.tooltip=function(frame) module:Tooltip(frame) end
+--@end-debug@
       button:SetScript("OnClick",click)
     end
   end

@@ -15,6 +15,9 @@ self:Wiki([[
 == Silent mode ==
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
+self:RelNotes(1,0,2, [[
+Fix: Next round of fixes
+]])
 self:RelNotes(1,0,1, [[
 Fix: Removes error when opening scouting map for the first time
 ]])

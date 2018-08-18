@@ -667,7 +667,7 @@ function module:Menu(flag)
   addon:RawHookScript(menu.Tutorial,"OnClick",function(this,button)  if button=="LeftButton" then addon:ShowTutorial() else addon:GetTutorialsModule():Home() end end)
   menu.Tutorial.tooltip=tutorialTip
   button=CreateFrame("Button",nil,OHFMissionTab,"BFAPin")
-  button.tooltip=L["Show/hide OrderHallCommander mission menu"]
+  button.tooltip=L["Show/hide ChampionCommander mission menu"]
   button:SetScript("OnClick",OpenMenu)
   button:GetNormalTexture():SetRotation(math.rad(270))
   button:GetHighlightTexture():SetRotation(math.rad(270))
@@ -1193,7 +1193,7 @@ function module:MissionTip(this)
 	tip:SetOwner(this,"ANCHOR_CURSOR")
 	tip:AddLine(this:GetName())
 	tip:AddDoubleLine(addon:GetAverageLevels())
-	OrderHallCommanderMixin.DumpData(tip,info)
+	ChampionCommanderMixin.DumpData(tip,info)
 	tip:AddLine("Followers")
 	for i,id in ipairs(info.followers) do
 		local rc,name = pcall(G.GetFollowerName,id)
@@ -1213,12 +1213,12 @@ function module:MissionTip(this)
 	tip:AddLine("Rewards")
 	for i,d in pairs(info.rewards) do
 		tip:AddLine('['..i..']')
-		OrderHallCommanderMixin.DumpData(tip,info.rewards[i])
+		ChampionCommanderMixin.DumpData(tip,info.rewards[i])
 	end
 	tip:AddLine("OverRewards")
 	for i,d in pairs(info.overmaxRewards) do
 		tip:AddLine('['..i..']')
-		OrderHallCommanderMixin.DumpData(tip,info.overmaxRewards[i])
+		ChampionCommanderMixin.DumpData(tip,info.overmaxRewards[i])
 	end
 	tip:AddDoubleLine("MissionID",info.missionID)
 	local mission=addon:GetMissionData(info.missionID)
