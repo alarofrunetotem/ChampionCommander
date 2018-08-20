@@ -465,6 +465,7 @@ function module:OnInitialized()
   if not Enhancer then
     Enhancer = CreateFrame("Frame",nil,nil,"GlowBoxTemplate")
   end
+  self:Hide()
 end
 function module:GetMenuItem(flag)
   return addon:GetMissionlistModule():GetMenuItem(flag)
