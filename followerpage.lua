@@ -146,8 +146,8 @@ function module:ShowFollowerData(this)
 	ChampionCommanderMixin.DumpData(tip,addon:GetFollowerData(OHFFollowerTab.followerID))
 	tip:Show()
 end
-function module:GARRISON_FOLLOWER_UPGRADED(event,followerType,followerId)
-	if followerType ~= LE_FOLLOWER_TYPE_GARRISON_7_0 then
+function module:GARRISON_FOLLOWER_UPGRADED(event,championType,followerId)
+	if followerType ~= championType then
 		return
 	end
 	if OHFFollowerTab:IsVisible() then
