@@ -17,6 +17,7 @@ typing /BFA silent in chat will eliminate every chat message from ChampionComman
 ]])
 self:RelNotes(1,1,0, [[
 Feature: Added equipment buttons to circumvent clumsy Blizzard taint
+Fix: Italian localization is back (scusatemi, l'avevo sovrascritta col cinese)
 ]])
 self:RelNotes(1,0,4, [[
 Fix: OrderHallCommander\tutorials.lua:498: '<eof>' expected near 'end'
