@@ -314,9 +314,6 @@ local artinfo='*' .. L["Artifact shown value is the base value without consideri
 function module:RewardWarning(this)
 	if this.itemID  then
 		local tip=GameTooltip
-		if addon.allArtifactPower[this.itemID] then
-			tip:AddLine(artinfo,C.Artifact())
-		end
 		local factionID=addon.allReputationGain[this.itemID]
 		if factionID then
 		  local faction,_,level=GetFactionInfoByID(factionID)

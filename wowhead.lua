@@ -1,7 +1,7 @@
 local me,ns = ...
 
-ns.wowhead_update=1536478272
--- DataMined from WowHead other-consumables?filter=86:166;11:8;0:0 on 09/09/2018
+ns.wowhead_update=1538777787
+-- DataMined from WowHead other-consumables?filter=86:166;11:8;0:0 on 06/10/2018
 -- Contains 40 items
 ns.allEquipments={
   162107, -- Makeshift Azerite Detector
@@ -17,3 +17,5 @@ ns.allEquipments={
   162120, -- Platinum Whetstone
   162122, -- Amber Rallying Horn
 }
+ns.allReputationGain={}
+
