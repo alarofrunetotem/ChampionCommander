@@ -99,7 +99,7 @@ local function safeformat(mask,...)
 end
 
 -- End Template - DO NOT MODIFY ANYTHING BEFORE THIS LINE
---*BEGIN 
+--*BEGIN
 local wipe,pcall,pairs,IsShiftKeyDown,IsControlKeyDown=wipe,pcall,pairs,IsShiftKeyDown,IsControlKeyDown
 local PlaySound,SOUNDKIT=PlaySound,SOUNDKIT
 local OHFButtons=OHFMissions.listScroll.buttons
@@ -112,7 +112,11 @@ function module:Cleanup()
 	wipe(safeguard)
 end
 function module:GARRISON_MISSION_STARTED(event,missionType,missionID)
-	if missionType == LE_FOLLOWER_TYPE_GARRISON_7_0 then
+--@debug@
+  print(event,missionType,missionID)
+--@end-debug@
+
+	if missionType == LE_FOLLOWER_TYPE_GARRISON_8_0 then
 		self:UnregisterEvent("GARRISON_MISSION_STARTED")
 		local mission=G.GetBasicMissionInfo(missionID)
 		addon:UnReserveMission(missionID)
@@ -122,6 +126,7 @@ function module:GARRISON_MISSION_STARTED(event,missionType,missionID)
 		end
 		-- safeguard should be empty now
 		self:Cleanup()
+		addon:ReloadMissions()
 	end
 end
 local truerun
@@ -146,7 +151,7 @@ function module:DoRunMissions()
 				local party=addon:GetMissionParties(missionID):GetSelectedParty(key)
 				local members = addon:GetMembersFrame(frame)
 				addon:Print(safeformat(L["Attempting %s"],C(mission.name,'orange')))
-				 
+
 				local info=""
 				for i=1,#members.Champions do
 					local followerID=members.Champions[i]:GetFollower()
@@ -163,7 +168,7 @@ function module:DoRunMissions()
 					end
 				end
 				local timestring,timeseconds,timeImproved,chance,buffs,missionEffects,xpBonus,materials,gold=G.GetPartyMissionInfo(missionID)
-        
+
 				if party.perc < chance then
 					addon:Print(C(L["Could not fulfill mission, aborting"],"red"))
 					self:Cleanup()
@@ -175,20 +180,20 @@ function module:DoRunMissions()
           self:Cleanup()
           break
         end
-				
+
 				nothing=false
 				if truerun then
 					self:RegisterEvent("GARRISON_MISSION_STARTED")
-					G.StartMission(missionID)						
+					G.StartMission(missionID)
 					addon:Print(C(L["Started with "],"green") ..info)
 					PlaySound(SOUNDKIT.UI_GARRISON_COMMAND_TABLE_MISSION_START)
 					--@debug@
-					dprint("Calling OHF:UpdateMissions")  
+					dprint("Calling OHF:UpdateMissions")
 					--@end-debug@
 					OHFFollowerList.dirtyList=true
-					OHFFollowerList:UpdateFollowers();	
-					OHFMissions:UpdateMissions()						
-					--@debug@												
+					OHFFollowerList:UpdateFollowers();
+					OHFMissions:UpdateMissions()
+					--@debug@
 					if multiple then
 					  addon:Print("Multiple is running")
 						self:ScheduleTimer("DoRunMissions",1)
@@ -244,15 +249,15 @@ function module:FireMission(missionID,frame,truerun)
       end
       if truerun then
         self:RegisterEvent("GARRISON_MISSION_STARTED")
-        G.StartMission(missionID)           
+        G.StartMission(missionID)
         addon:Print(C(L["Started with "],"green") ..info)
         PlaySound(SOUNDKIT.UI_GARRISON_COMMAND_TABLE_MISSION_START)
         --@debug@
-        dprint("Calling OHF:UpdateMissions")  
+        dprint("Calling OHF:UpdateMissions")
         --@end-debug@
         OHFFollowerList.dirtyList=true
-        OHFFollowerList:UpdateFollowers();  
-        OHFMissions:UpdateMissions()            
+        OHFFollowerList:UpdateFollowers();
+        OHFMissions:UpdateMissions()
         return
       else
         addon:Print(C(L["Would start with "],"green") ..info)
