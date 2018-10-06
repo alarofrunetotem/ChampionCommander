@@ -399,10 +399,7 @@ local function Reward2Class(self,mission)
 	elseif reward.followerXP then
 			return "FollowerXp",reward.followerXP
 	elseif type(reward.itemID) == "number" then
-		local artifactPower=self.allArtifactPower[reward.itemID]
-		if artifactPower then
-			return "Artifact",artifactPower or 1
-		elseif overReward.itemID==1447868 then
+		if overReward.itemID==1447868 then
 			return "PlayerXP",1
 		elseif overReward.itemID==141344 then
 			return "Reputation",1
