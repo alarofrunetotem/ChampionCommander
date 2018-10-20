@@ -288,7 +288,7 @@ function addon:SetDirtyFlags(event,missionType,missionID,...)
 		or event=="GARRISON_MISSION_STARTED"
     or event=="GARRISON_FOLLOWER_UPGRADED"
     or event=="GARRISON_FOLLOWER_XP_CHANGED" then
-		if missionType ~= LE_FOLLOWER_TYPE_GARRISON_7_0 then return end
+		if missionType ~= LE_FOLLOWER_TYPE_GARRISON_8_0 then return end
 	end
 	if event=="GARRISON_FOLLOWER_CATEGORIES_UPDATED"
 		or event=="GARRISON_FOLLOWER_ADDED"
@@ -310,10 +310,10 @@ function addon:SetDirtyFlags(event,missionType,missionID,...)
 end
 local tb={url=""}
 local artinfo='*' .. L["Artifact shown value is the base value without considering knowledge multiplier"]
-
+local tipinvocation=0
 function module:RewardWarning(this)
+  local tip=GameTooltip
 	if this.itemID  then
-		local tip=GameTooltip
 		local factionID=addon.allReputationGain[this.itemID]
 		if factionID then
 		  local faction,_,level=GetFactionInfoByID(factionID)
@@ -323,7 +323,7 @@ function module:RewardWarning(this)
 		  end
     end
 		tip:AddLine(safeformat(L["%s for a wowhead link popup"],SHIFT_KEY_TEXT .. KEY_BUTTON1))
-		tip:Show()
+  tip:Show()
 	end
 end
 function module:PrintLink(this,button)
@@ -522,13 +522,13 @@ local PushRefresher,RunRefreshers,ListRefreshers do
     Refreshers[refresher]=obj or true
   end
   function RunRefreshers()
-  if next(Refreshers) and OHF:IsVisible() then
---@debug@
-    addon:Print("Runrefresher called from",debugstack(3,2,0))
---@end-debug@
-  else
-    return
-  end
+    if next(Refreshers) and OHF:IsVisible() then
+  --@debug@
+      addon:Print("Runrefresher called from",debugstack(3,2,0))
+  --@end-debug@
+    else
+      return
+    end
     for method,obj in pairs(Refreshers) do
       if type(obj)=="boolean" then
         obj=addon
@@ -847,6 +847,7 @@ function module:EvOff()
   self:UnHook(OHF,"SelectTab")
 end
 function module:MainOnShow()
+  print("OnShow")
   self:DisplayMenu()
 	addon:GetResources(true)
 	--self:Unhook(OHFMissions,"Update")
