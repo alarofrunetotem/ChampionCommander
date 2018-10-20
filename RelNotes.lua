@@ -15,6 +15,9 @@ self:Wiki([[
 == Silent mode ==
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
+self:RelNotes(1,1,1, [[
+Fix: Parties are now refreshed on every mission start
+]])
 self:RelNotes(1,1,0, [[
 Feature: Added equipment buttons to circumvent clumsy Blizzard taint
 Fix: Italian localization is back (scusatemi, l'avevo sovrascritta col cinese)
