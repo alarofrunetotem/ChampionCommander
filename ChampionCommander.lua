@@ -129,10 +129,10 @@ MISSING=C(MISSING:sub(1,1):upper() .. MISSING:sub(2),"Red")
 local ctr=0
 -- Sometimes matchmakimng starts before these are defined, so I put here a sensible default (actually, this values are constans)
 function addon:MAXLEVEL()
-	return OHF.followerMaxLevel or 110
+	return OHF.followerMaxLevel or 120
 end
 function addon:MAXQUALITY()
-	return OHF.followerMaxQuality or 6
+	return OHF.followerMaxQuality or 4
 end
 function addon:MAXQLEVEL()
 	return addon:MAXLEVEL()+addon:MAXQUALITY()
