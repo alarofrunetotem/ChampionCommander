@@ -48,7 +48,7 @@ local OHFBOTTOMRIGHT=OHF.GarrCorners.BottomRightGarrCorner
 local followerType=LE_FOLLOWER_TYPE_GARRISON_8_0
 local garrisonType=LE_GARRISON_TYPE_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
-local MAX_LEVEL=110
+local MAX_LEVEL=120
 
 local ShowTT=ChampionCommanderMixin.ShowTT
 local HideTT=ChampionCommanderMixin.HideTT
