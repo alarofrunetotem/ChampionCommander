@@ -15,6 +15,9 @@ self:Wiki([[
 == Silent mode ==
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
+self:RelNotes(1,2,0, [[
+Feature: TOC Bump 8.2.0
+]])
 self:RelNotes(1,1,1, [[
 Fix: Parties are now refreshed on every mission start
 ]])
