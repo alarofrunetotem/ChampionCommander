@@ -174,7 +174,8 @@ function addon:BusyFor(candidate)
 	local now=GetTime()
 	local never=now+7*24*3600
 	for _,followerID in candidate:IterateFollowers() do
-	  if G.GetFollowerStatus(followerID)== GARRISON_FOLLOWER_INACTIVE then
+	 local rc, status pcall(G.GetFollowerStatus,followerID)
+	  if not rc or status== GARRISON_FOLLOWER_INACTIVE then
 	   return never
 	  end
 		if not busyCache[followerID] then
@@ -224,14 +225,14 @@ end
 function partyManager:SetReason(reason)
   if not self.current.reason then
     self.current.reason=reason
-  end    
+  end
 end
 
 function partyManager:SatisfyCondition(candidate,index)
 	local missionID=self.missionID
 	if addon:IsBanned(index,missionID) then
 		return self:Fail("Slot banned")
-	end	
+	end
 	if type(candidate) ~= "table" then return self:Fail("NOTABLE") end
 	local followerID=candidate[index]
 	if not followerID then return self:Fail("No follower id for party slot",index) end
@@ -250,7 +251,7 @@ function partyManager:SatisfyCondition(candidate,index)
 		local reserved=addon:IsReserved(followerID)
 		if reserved then
 			-- Always increment because, when reserved is not equal missionID we refuse the whole party
-			candidate.reservedChampions=candidate.reservedChampions +1 
+			candidate.reservedChampions=candidate.reservedChampions +1
 			return reserved==missionID
 		end
 		self.lastChecked=followerID
@@ -307,9 +308,9 @@ function partyManager:CheckCaps(index)
 						return candidate.key
 					end
 				end
-				return candidate.key							
+				return candidate.key
 			end
-		end    
+		end
 	end
 end
 function partyManager:CheckParty(candidate)
@@ -323,7 +324,7 @@ function partyManager:CheckParty(candidate)
 	if addon:GetBoolean("SPARE") and candidate.cost > candidate.baseCost then return self:Fail("SPARE",addon:GetBoolean("SPARE"),candidate.cost , candidate.baseCost) end
 	if addon:GetBoolean("MAKEITVERYQUICK") and not candidate.timeImproved then return self:Fail("VERYQUICK") end
 	if addon:GetBoolean("MAKEITQUICK") and candidate.hasMissionTimeNegativeEffect then return self:Fail("QUICK") end
-	if addon:GetBoolean("BONUS") and candidate.hasBonusLootNegativeEffect then return self:Fail("BONUS") end			
+	if addon:GetBoolean("BONUS") and candidate.hasBonusLootNegativeEffect then return self:Fail("BONUS") end
 	local mandatoryfound=0
 	for j=1,#candidate do
 		if not self:SatisfyCondition(candidate,j) then return end
@@ -346,7 +347,7 @@ function partyManager:Cap(perc,key)
      self.cappedkey=key
      self.bestcappedfound=true
   elseif perc >= self.bonusChance and perc < self.capChance then
-     -- We didnt found a perfetc match so here we look for something which is not overcapping AND in allowable bonus 
+     -- We didnt found a perfetc match so here we look for something which is not overcapping AND in allowable bonus
      self.cappedkey=key
      self.bestcappedfound=true
   elseif perc == 100 then
@@ -356,7 +357,7 @@ function partyManager:Cap(perc,key)
   elseif perc > 100 then
     -- Alas, no uncapped perfect nor capped perfect
   -- We get as candidate any key which is over 100
-  -- but will continue lowering it 
+  -- but will continue lowering it
      self.cappedkey=key
   end
   if perc < 100 and perc >=self.baseChance then
@@ -396,14 +397,14 @@ function partyManager:GetSelectedParty(key,dbg)
 		local candidate=self.candidates[self.candidatesIndex[i]]
 		self.current=candidate
 		if candidate then
-			local key = candidate.key 
+			local key = candidate.key
 			candidate.reservedChampions=0
 			if self:CheckParty(candidate) then
-				if candidate.perc <= self.capChance and candidate.totalXP >self.maxXp then 
+				if candidate.perc <= self.capChance and candidate.totalXP >self.maxXp then
 					self.maxXp=candidate.totalXP
-					self.xpkey=key 
+					self.xpkey=key
 				end
-				if candidate.champions > math.max(candidate.reservedChampions,self.maxChampions) then 
+				if candidate.champions > math.max(candidate.reservedChampions,self.maxChampions) then
 					self:Fail(format("%d champions, ony %d allowed",candidate.champions,self.maxChampions))
 				else
 				  self:SetReason("Acceptable")
@@ -421,10 +422,10 @@ function partyManager:GetSelectedParty(key,dbg)
 			if dbg then
 				print(i,candidate.key,candidate.reason)
 			end
---@end-debug@			
+--@end-debug@
 		end
     candidate.busyUntil=addon:BusyFor(candidate)
-		
+
 	end -- for i,key in ipairs(self.candidatesIndex) do
 	self.current=nil
 	del(self.mandatoryFollowers,false)
@@ -531,7 +532,7 @@ function partyManager:Build(...)
 	end
 	local missionEffects=self:GetEffects()
 	missionEffects.xpGainers=xpGainers
-	missionEffects.totalXP=(todefault(missionEffects.bonusXP,0) + todefault(self.baseXP,0))*(missionEffects.xpGainers or 0)	
+	missionEffects.totalXP=(todefault(missionEffects.bonusXP,0) + todefault(self.baseXP,0))*(missionEffects.xpGainers or 0)
 	if missionEffects.perc >= 200 then
 	 missionEffects.totalXP=missionEffects.totalXP * 2
 	end
@@ -564,7 +565,7 @@ function partyManager:Build(...)
 	return index
 end
 
--- 
+--
 function partyManager:Match()
 	local missionID=self.missionID
 	if not missionID then print("Missing missionID",self) return false end
