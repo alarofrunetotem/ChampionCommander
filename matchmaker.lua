@@ -174,7 +174,7 @@ function addon:BusyFor(candidate)
 	local now=GetTime()
 	local never=now+7*24*3600
 	for _,followerID in candidate:IterateFollowers() do
-	 local rc, status pcall(G.GetFollowerStatus,followerID)
+	 local rc, status = pcall(G.GetFollowerStatus,followerID)
 	  if not rc or status== GARRISON_FOLLOWER_INACTIVE then
 	   return never
 	  end
