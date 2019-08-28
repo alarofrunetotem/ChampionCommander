@@ -126,7 +126,7 @@ tutorials={
         c)
     end,
     parent=function() return module:GetMenuItem("SAVETROOPS") end,
-    anchor="LEFT"
+    anchor="RIGHT"
   },
   {
     text=function()
@@ -135,7 +135,7 @@ tutorials={
         c,n,x)
     end,
     parent=function() return module:GetMenuItem("NEVERKILLTROOPS") end,
-    anchor="LEFT"
+    anchor="RIGHT"
   },
   {
     text=function()
@@ -144,7 +144,7 @@ tutorials={
         c)
     end,
     parent=function() return module:GetMenuItem("PREFERHIGH") end,
-    anchor="LEFT"
+    anchor="RIGHT"
   },
   {
     text=function()
@@ -153,7 +153,7 @@ tutorials={
         c,g,n)
     end,
     parent=function() return module:GetMenuItem("MAXCHAMP") end,
-    anchor="LEFT"
+    anchor="RIGHT"
   },
   {
     text=function()
@@ -162,7 +162,7 @@ tutorials={
         g,b,ng,nb)
     end,
     parent=function() return module:GetMenuItem("BONUSCHANCE"), module:GetMenuItem("BASECHANCE") end,
-    anchor="LEFT"
+    anchor="RIGHT"
   },
   {
     text=function()
@@ -171,7 +171,7 @@ tutorials={
         g,b)
     end,
     parent=function() return module:GetMenuItem("BONUSCHANCE"), module:GetMenuItem("BASECHANCE") end,
-    anchor="LEFT"
+    anchor="RIGHT"
   },
   {
     text=function()
@@ -180,7 +180,7 @@ tutorials={
         g,b)
     end,
     parent=function() return module:GetMenuItem("BONUSCHANCE") , module:GetMenuItem("BASECHANCE") end,
-    anchor="LEFT"
+    anchor="RIGHT"
   },
   {
     text=L["Equipment and upgrades are listed here as clickable buttons.\nDue to an issue with Blizzard Taint system, drag and drop from bags raise an error.\nif you drag and drop an item from a bag, you receive an error.\nIn order to assign equipments which are not listed (I update the list often but sometimes Blizzard is faster), you can right click the item in the bag and the left click the follower.\nThis way you dont receive any error"],
