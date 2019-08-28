@@ -135,7 +135,6 @@ local menuType="BFAMenu"
 local menuOptions={mission={},follower={}}
 local _G=_G
 function addon:ApplyMOVEPANEL(value)
-	OHF:EnableMouse(value)
 	OHF:SetMovable(value)
 end
 
