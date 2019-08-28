@@ -211,6 +211,7 @@ function module:Update(scrollFrame)
   local now=GetTime()
   for i=1,#buttons do
     local key,button,party,index
+    local delay = 0
     button=buttons[i]
     while true do
       index=i+offset+skip
@@ -219,8 +220,9 @@ function module:Update(scrollFrame)
       end
       key=parties.candidatesIndex[index]
       party=parties.candidates[key]
+      delay=addon:BusyFor(party) - now
       if not scrollFrame.readyOnly then break end
-      if addon:BusyFor(party) > now then
+      if delay > 0 then
         skip=skip+1
       else
         break
@@ -250,7 +252,11 @@ function module:Update(scrollFrame)
       else
         button.Title:SetText(text)
       end
-      button.Status:SetText(party.reason)
+      if (delay > 0) then
+        button.Status:SetText(party.reason .. ' (' .. C(L['Ready in'] .. ' ' .. SecondsToTime(delay),'Red') ..')')
+     else
+        button.Status:SetText(party.reason .. ' ' ..C(L['Ready'],'Green')..')')
+      end
       button:Show()
       for j=1,3 do
         local champion=button.Followers.Champions[j]
