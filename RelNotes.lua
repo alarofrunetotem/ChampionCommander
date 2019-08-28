@@ -15,6 +15,12 @@ self:Wiki([[
 == Silent mode ==
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
+self:RelNotes(1,2,1, [[
+Feature: Show duration on Analyze parties BUSY items (#27)
+Fix: Ready only in analyse works again (#31)
+Fix: Tutorial now fits in the screen (#28)
+Fix: Scouting mapo was not responsive with panel in locked mode (#23)
+]])
 self:RelNotes(1,2,0, [[
 Feature: TOC Bump 8.2.0
 ]])
