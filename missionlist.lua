@@ -763,6 +763,7 @@ function module:InitialSetup(this)
 	if versiontype then
 		local frame=CreateFrame("Frame",nil,OHF,"TooltipBorderedFrameTemplate")
 		frame.label=frame:CreateFontString(nil,"OVERLAY","GameFontNormalHuge")
+		frame:SetFrameStrata("TOOLTIP")
 		frame.label:SetAllPoints(frame)
 		frame:SetPoint("BOTTOM",OHF,"TOP",0,30)
 		frame.label:SetWidth(OHF:GetWidth()-10)
