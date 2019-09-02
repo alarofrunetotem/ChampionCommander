@@ -351,7 +351,7 @@ function module:GarrisonMissionButtonRewards_OnEnter(this)
             end
           end
           )
-      module:SecureHookScript(tip,"OnHide",function(panel) pp("Unhooking") module:Unhook(panel,"OnUpdate") module:Unhook(panel,"OnHide") end)
+      module:SecureHookScript(tip,"OnHide",function(panel) module:Unhook(panel,"OnUpdate") module:Unhook(panel,"OnHide") end)
     end
   end
 	if this.itemID  then
