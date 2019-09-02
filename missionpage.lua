@@ -253,9 +253,9 @@ function module:Update(scrollFrame)
         button.Title:SetText(text)
       end
       if (delay > 0) then
-        button.Status:SetText(party.reason .. ' (' .. C(L['Ready in'] .. ' ' .. SecondsToTime(delay),'Red') ..')')
+        button.Status:SetText((party.reason or '')  .. ' (' .. C(L['Ready in'] .. ' ' .. SecondsToTime(delay),'Red') ..')')
      else
-        button.Status:SetText(party.reason .. ' ' ..C(L['Ready'],'Green')..')')
+        button.Status:SetText((party.reason or '') .. ' (' ..C(L['Ready'],'Green')..')')
       end
       button:Show()
       for j=1,3 do

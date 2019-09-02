@@ -15,6 +15,9 @@ self:Wiki([[
 == Silent mode ==
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
+self:RelNotes(1,2,2, [[
+Fix: #33 attempt to concatenate field 'reason' (a nil value)
+]])
 self:RelNotes(1,2,1, [[
 Feature: Show duration on Analyze parties BUSY items (#27)
 Fix: Ready only in analyse works again (#31)
