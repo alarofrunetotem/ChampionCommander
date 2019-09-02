@@ -137,6 +137,12 @@ local MAX=999999999
 local OHFButtons=OHFMissions.listScroll.buttons
 local clean
 local displayClean
+local function getFactionInfoFromCurrency(id)
+    local factionId=C_CurrencyInfo.GetFactionGrantedByCurrency(id)
+    if not factionId then return nil,nil end
+    local faction,_,level=GetFactionInfoByID(factionId)
+    return faction,level
+end
 local function GetPerc(mission,realvalue)
 	local p=addon:GetSelectedParty(mission.missionID,missionKEYS[mission.missionID])
 	if not p then addon:SetDirtyFlags("FORCED")return 0 end
@@ -209,6 +215,7 @@ function module:OnInitialized()
 
 --@debug@
 	addon:AddBoolean("ELITEMODE",false,L["Elites mission mode"],L["Only consider elite missions"])
+  addon:AddBoolean("EXTENDEDTIP",false,L["Extended mission tooltip"],L["Shows a VERY verbose mission toolitpi"])
 --@end-debug@
 	addon:AddSelect("SORTMISSION","Garrison_SortMissions_Original",sorters,	L["Sort missions by:"],L["Changes the sort order of missions in Mission panel"])
   addon:AddSelect("SORTMISSION2","Garrison_SortMissions_Original",sorters, L["and then by:"],L["Changes the second sort order of missions in Mission panel"])
@@ -246,6 +253,7 @@ function module:OnInitialized()
 			show_while_dead = true,
 			hide_on_escape = true,
 		})
+		self:SecureHook("GarrisonMissionButtonRewards_OnEnter")
 end
 function module:Print(...)
 	print(...)
@@ -279,7 +287,6 @@ function module:LoadButtons(...)
 		local f,h,s=b.Summary:GetFont()
 		b.Summary:SetFont(f,h*scale,s)
 		self:SecureHookScript(b.Rewards[1],"OnMouseUp","PrintLink")
-		self:SecureHookScript(b.Rewards[1],"OnEnter","RewardWarning")
 	end
 end
 function addon:SetDirtyFlags(event,missionType,missionID,...)
@@ -311,8 +318,42 @@ end
 local tb={url=""}
 local artinfo='*' .. L["Artifact shown value is the base value without considering knowledge multiplier"]
 local tipinvocation=0
-function module:RewardWarning(this)
+function module:GarrisonMissionButtonRewards_OnEnter(this)
   local tip=GameTooltip
+  local frame,anchor =tip:GetOwner()
+  if (frame ~= this) then return end
+  local lines={}
+  if (this.currencyID) then
+    local id,qt=this.currencyID,this.currencyQuantity
+    local faction,level = getFactionInfoFromCurrency(id)
+    if not faction then return end
+    if level then
+      level=_G['FACTION_STANDING_LABEL' .. level]
+      lines[FACTION_STANDING_CHANGED:format(C(level,"GREEN"),C(faction,"GREEN"))]=false
+    end
+    for k,v in pairs(lines) do
+      if (v) then
+        tip:AddDoubleLine(k,v)
+      else
+        tip:AddLine(k,v)
+      end
+    end
+    do
+      local lines=lines
+      local numLines=tip:NumLines()
+      module:SecureHookScript(tip,"OnUpdate",
+          function(panel)
+            if panel:NumLines() < numLines then
+              for k,v in pairs(lines) do
+                panel:AddDoubleLine(k,v)
+              end
+              panel:Show()
+            end
+          end
+          )
+      module:SecureHookScript(tip,"OnHide",function(panel) pp("Unhooking") module:Unhook(panel,"OnUpdate") module:Unhook(panel,"OnHide") end)
+    end
+  end
 	if this.itemID  then
 		local factionID=addon.allReputationGain[this.itemID]
 		if factionID then
@@ -323,10 +364,16 @@ function module:RewardWarning(this)
 		  end
     end
 		tip:AddLine(safeformat(L["%s for a wowhead link popup"],SHIFT_KEY_TEXT .. KEY_BUTTON1))
-  tip:Show()
 	end
+  tip:Show()
+  --module:Unhook(this,"OnUpdate")
 end
 function module:PrintLink(this,button)
+--@debug@
+  if (button=="MiddleButton") then
+    DevTools_Dump(this)
+  end
+--@end-debug@
   if this.itemID and ChatEdit_TryInsertChatLink((select(2,GetItemInfo(this.itemID)))) then return end
 	if button=="RightButton" then
 		local missionID=this:GetParent().info.missionID
@@ -937,6 +984,24 @@ function module:AdjustMissionButton(frame)
 		return
 	end
 	self:SafeAddMembers(frame)
+	for i=1,#frame.Rewards do
+	  local reward=frame.Rewards[i]
+	  if (reward.currencyID) then
+      local id,qt=reward.currencyID,reward.currencyQuantity
+      reward.Quantity:SetText(qt)
+      local faction,level = getFactionInfoFromCurrency(id)
+      if level then
+        if level >= 8 then
+          reward.Quantity:SetTextColor(RED_FONT_COLOR:GetRGB());
+        else
+          reward.Quantity:SetTextColor(GREEN_FONT_COLOR:GetRGB());
+        end
+      else
+        reward.Quantity:SetTextColor(HIGHLIGHT_FONT_COLOR:GetRGB());
+      end
+      reward.Quantity:Show()
+   end
+	end
 end
 function  module:SafeAddMembers(frame)
   local rc,errorMessage=pcall(self.AddMembers,self,frame)
@@ -1331,14 +1396,16 @@ function module:AdjustMissionTooltip(this,...)
 			break
 		end
 	end
+  local now=GetTime()
 	for t,p in pairs(bestTimes) do
-		tinsert(bestTimesIndex,t)
+  	if t > now then
+  		tinsert(bestTimesIndex,t)
+  	end
 	end
 	if #bestTimesIndex > 0 then
 		tip:AddLine(L["Better parties available in next future"],C:Green())
 		table.sort(bestTimesIndex)
 		local bestChance=0
-		local now=GetTime()
 		for i=1,#bestTimesIndex do
 			local key=bestTimesIndex[i]
 			local candidate=bestTimes[key]
@@ -1353,30 +1420,32 @@ function module:AdjustMissionTooltip(this,...)
 		end
 	end
 --@debug@
-	tip:AddLine("Mission Data")
-	for k,v in kpairs(parties) do
-		local color="Silver"
-		if type(v)=="number" then color="Cyan"
-		elseif type(v)=="string" then color="Yellow" v=v:sub(1,30)
-		elseif type(v)=="boolean" then v=v and 'True' or 'False' color="White"
-		elseif type(v)=="table" then color="Green" if v.GetObjectType then v=v:GetObjectType() else v=tostring(v) end
-		else v=type(v) color="Blue"
-		end
-		if k=="description" then v =v:sub(1,10) end
-		tip:AddDoubleLine(k,v,addon.colors("Orange",color))
-	end
-	tip:AddLine("Candidate Data")
-	for k,v in kpairs(party) do
-		local color="Silver"
-		if type(v)=="number" then color="Cyan"
-		elseif type(v)=="string" then color="Yellow" v=v:sub(1,30)
-		elseif type(v)=="boolean" then v=v and 'True' or 'False' color="White"
-		elseif type(v)=="table" then color="Green" if v.GetObjectType then v=v:GetObjectType() else v=tostring(v) end
-		else v=type(v) color="Blue"
-		end
-		if k=="description" then v =v:sub(1,10) end
-		tip:AddDoubleLine(k,v,addon.colors("Orange",color))
-	end
+  if addon:GetBoolean('EXTENDEDTIP') then
+  	tip:AddLine("Mission Data")
+  	for k,v in kpairs(parties) do
+  		local color="Silver"
+  		if type(v)=="number" then color="Cyan"
+  		elseif type(v)=="string" then color="Yellow" v=v:sub(1,30)
+  		elseif type(v)=="boolean" then v=v and 'True' or 'False' color="White"
+  		elseif type(v)=="table" then color="Green" if v.GetObjectType then v=v:GetObjectType() else v=tostring(v) end
+  		else v=type(v) color="Blue"
+  		end
+  		if k=="description" then v =v:sub(1,10) end
+  		tip:AddDoubleLine(k,v,addon.colors("Orange",color))
+  	end
+  	tip:AddLine("Candidate Data")
+  	for k,v in kpairs(party) do
+  		local color="Silver"
+  		if type(v)=="number" then color="Cyan"
+  		elseif type(v)=="string" then color="Yellow" v=v:sub(1,30)
+  		elseif type(v)=="boolean" then v=v and 'True' or 'False' color="White"
+  		elseif type(v)=="table" then color="Green" if v.GetObjectType then v=v:GetObjectType() else v=tostring(v) end
+  		else v=type(v) color="Blue"
+  		end
+  		if k=="description" then v =v:sub(1,10) end
+  		tip:AddDoubleLine(k,v,addon.colors("Orange",color))
+  	end
+  end
 --@end-debug@
 	self:SafeAddMembers(this)
 	tip:Show()
