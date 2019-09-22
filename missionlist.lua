@@ -137,6 +137,18 @@ local MAX=999999999
 local OHFButtons=OHFMissions.listScroll.buttons
 local clean
 local displayClean
+local function factionLevelColor(level)
+  level=level or 4
+  if level < 4 then
+    return "ORANGE"
+  elseif level >= MAX_REPUTATION_REACTION then
+    return "CYAN"
+  elseif level ==4 then
+    return "YELLOW"
+  else
+    return "GREEN"
+  end
+end
 local function getFactionInfoFromCurrency(id)
     local factionId=C_CurrencyInfo.GetFactionGrantedByCurrency(id)
     if not factionId then return nil,nil end
@@ -328,8 +340,8 @@ function module:GarrisonMissionButtonRewards_OnEnter(this)
     local faction,level = getFactionInfoFromCurrency(id)
     if not faction then return end
     if level then
-      level=_G['FACTION_STANDING_LABEL' .. level]
-      lines[FACTION_STANDING_CHANGED:format(C(level,"GREEN"),C(faction,"GREEN"))]=false
+      local levelLabel=_G['FACTION_STANDING_LABEL' .. level]
+      lines[FACTION_STANDING_CHANGED:format(C(levelLabel,factionLevelColor(level)),C(faction,"GREEN"))]=false
     end
     for k,v in pairs(lines) do
       if (v) then
@@ -407,7 +419,6 @@ function module:OnUpdateMissions(frame)
   end
   addon:RunRefreshers()
 end
-
 function module:OnUpdate(frame)
 	addon:RedrawMissions()
 end
@@ -991,11 +1002,7 @@ function module:AdjustMissionButton(frame)
       reward.Quantity:SetText(qt)
       local faction,level = getFactionInfoFromCurrency(id)
       if level then
-        if level >= 8 then
-          reward.Quantity:SetTextColor(RED_FONT_COLOR:GetRGB());
-        else
-          reward.Quantity:SetTextColor(GREEN_FONT_COLOR:GetRGB());
-        end
+        reward.Quantity:SetTextColor(C[factionLevelColor(level)]())
       else
         reward.Quantity:SetTextColor(HIGHLIGHT_FONT_COLOR:GetRGB());
       end

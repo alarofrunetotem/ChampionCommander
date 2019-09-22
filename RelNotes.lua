@@ -15,6 +15,9 @@ self:Wiki([[
 == Silent mode ==
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
+self:RelNotes(1,2,3, [[
+Feature: Improved reputation color codes.
+]])
 self:RelNotes(1,2,2, [[
 Fix: #33 attempt to concatenate field 'reason' (a nil value)
 Feature: #11 Reputation info on rewards. Amount of rep colored in red for exalted reps
