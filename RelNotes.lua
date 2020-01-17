@@ -15,6 +15,9 @@ self:Wiki([[
 == Silent mode ==
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
+self:RelNotes(1,2,4, [[
+Feature: Toc BUMP
+]])
 self:RelNotes(1,2,3, [[
 Feature: Improved reputation color codes.
 ]])
