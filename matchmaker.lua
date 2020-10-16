@@ -45,8 +45,8 @@ local OHFTOPLEFT=OHF.GarrCorners.TopLeftGarrCorner
 local OHFTOPRIGHT=OHF.GarrCorners.TopRightGarrCorner
 local OHFBOTTOMLEFT=OHF.GarrCorners.BottomTopLeftGarrCorner
 local OHFBOTTOMRIGHT=OHF.GarrCorners.BottomRightGarrCorner
-local followerType=LE_FOLLOWER_TYPE_GARRISON_8_0
-local garrisonType=LE_GARRISON_TYPE_8_0
+local followerType=Enum.GarrisonFollowerType.FollowerType_8_0
+local garrisonType=Enum.GarrisonType.Type_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
 local MAX_LEVEL=110
 
@@ -69,8 +69,6 @@ dprint=function() end
 ddump=function() end
 local print=function() end
 --@end-non-debug@]===]
-local LE_FOLLOWER_TYPE_GARRISON_8_0=LE_FOLLOWER_TYPE_GARRISON_8_0
-local LE_GARRISON_TYPE_8_0=LE_GARRISON_TYPE_8_0
 local GARRISON_FOLLOWER_COMBAT_ALLY=GARRISON_FOLLOWER_COMBAT_ALLY
 local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
@@ -129,7 +127,6 @@ __index = function(t,key)
 local assert,ipairs,pairs,wipe,GetFramesRegisteredForEvent=assert,ipairs,pairs,wipe,GetFramesRegisteredForEvent
 local select,tinsert,setmetatable,coroutine=select,tinsert,setmetatable,coroutine
 local tostringall,strsplit,strjoin=tostringall,strsplit,strjoin
-local followerType=LE_FOLLOWER_TYPE_GARRISON_7_0
 local emptyTable=setmetatable({},{__newindex=function() end})
 local holdEvents
 local releaseEvents
@@ -574,7 +571,9 @@ function partyManager:Match()
 	self.name=mission.name
 	wipe(self.candidates)
 	self.unique=0
-	local _,baseXP,_,_,_,_,exhausting,enemies=G.GetMissionInfo(missionID)
+	local t=G.GetMissionDeploymentInfo(missionID)
+	local baseXP=t.xp
+	local exhausting=t.isExhausting 
 	self.numFollowers=mission.numFollowers or G.GetMissionMaxFollowers(missionID)
 	self.exhausting=exhausting
 	self.elite=mission.elite

@@ -45,8 +45,8 @@ local OHFTOPLEFT=OHF.GarrCorners.TopLeftGarrCorner
 local OHFTOPRIGHT=OHF.GarrCorners.TopRightGarrCorner
 local OHFBOTTOMLEFT=OHF.GarrCorners.BottomTopLeftGarrCorner
 local OHFBOTTOMRIGHT=OHF.GarrCorners.BottomRightGarrCorner
-local followerType=LE_FOLLOWER_TYPE_GARRISON_8_0
-local garrisonType=LE_GARRISON_TYPE_8_0
+local followerType=Enum.GarrisonFollowerType.FollowerType_8_0
+local garrisonType=Enum.GarrisonType.Type_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
 local MAX_LEVEL=110
 
@@ -69,8 +69,6 @@ dprint=function() end
 ddump=function() end
 local print=function() end
 --@end-non-debug@]===]
-local LE_FOLLOWER_TYPE_GARRISON_8_0=LE_FOLLOWER_TYPE_GARRISON_8_0
-local LE_GARRISON_TYPE_8_0=LE_GARRISON_TYPE_8_0
 local GARRISON_FOLLOWER_COMBAT_ALLY=GARRISON_FOLLOWER_COMBAT_ALLY
 local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
@@ -672,7 +670,7 @@ end
 local warner
 function module:NoMartiniNoParty(text)
 	if not warner then
-		warner=CreateFrame("Frame","BFAWarner",OHFMissions)
+		warner=CreateFrame("Frame","BFAWarner",OHFMissions , BackdropTemplateMixin and "BackdropTemplate")
 		warner.label=warner:CreateFontString(nil,"OVERLAY","GameFontNormalHuge3Outline")
 		warner.label:SetTextColor(C:Orange())
 		warner:SetAllPoints()
@@ -1161,7 +1159,7 @@ function module:AddThreats(frame,threats,party,missionID)
 	threats:Show()
 	local enemies=addon:GetMissionData(missionID,'enemies')
 	if type(enemies)~="table" then
-		enemies=select(8,G.GetMissionInfo(missionID))
+		enemies=G.GetMissionDeploymentInfo(missionID)['enemies']
 	end
 	local mechanics=new()
 	local counters=new()

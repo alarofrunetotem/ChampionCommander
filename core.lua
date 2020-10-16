@@ -45,8 +45,8 @@ local OHFTOPLEFT=OHF.GarrCorners.TopLeftGarrCorner
 local OHFTOPRIGHT=OHF.GarrCorners.TopRightGarrCorner
 local OHFBOTTOMLEFT=OHF.GarrCorners.BottomTopLeftGarrCorner
 local OHFBOTTOMRIGHT=OHF.GarrCorners.BottomRightGarrCorner
-local followerType=LE_FOLLOWER_TYPE_GARRISON_8_0
-local garrisonType=LE_GARRISON_TYPE_8_0
+local followerType=Enum.GarrisonFollowerType.FollowerType_8_0
+local garrisonType=Enum.GarrisonType.Type_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
 local MAX_LEVEL=110
 
@@ -69,8 +69,6 @@ dprint=function() end
 ddump=function() end
 local print=function() end
 --@end-non-debug@]===]
-local LE_FOLLOWER_TYPE_GARRISON_8_0=LE_FOLLOWER_TYPE_GARRISON_8_0
-local LE_GARRISON_TYPE_8_0=LE_GARRISON_TYPE_8_0
 local GARRISON_FOLLOWER_COMBAT_ALLY=GARRISON_FOLLOWER_COMBAT_ALLY
 local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
@@ -120,7 +118,6 @@ BFA- OrderHallMissionFrame.FollowerTab.XPBar : OnShow :  table: 00000000335585D0
 -- Upvalued functions
 local GetItemInfo=GetItemInfo
 --if I then GetItemInfo=I:GetCachingGetItemInfo() end
-local GetCurrencyInfo=GetCurrencyInfo
 local tostring=tostring
 local tostringall=tostringall
 local strjoin=strjoin
@@ -134,10 +131,31 @@ local menu
 local menuType="BFAMenu"
 local menuOptions={mission={},follower={}}
 local _G=_G
+
 function addon:ApplyMOVEPANEL(value)
 	OHF:SetMovable(value)
 end
-
+function GGK()
+	for k,v in pairs(C_GARRISON) do
+		print(k,v)
+	end
+end
+function addon:GetMissionInfo(id)
+	local t=G.GetMissionDeploymentInfo(id)
+	return
+		t.location,
+		t.xp,
+		t.environment,	
+		t.environmentDesc,	
+		t.environmentTexture,	
+		t.locTextureKit,
+		t.isExhausting,
+		t.enemies
+end
+function addon:GetCurrencyInfo(id)
+	local t=C_CurrencyInfo.GetCurrencyInfo(id)
+	return t.name,t.quantity,t.iconFiledID,t.quantityEarnedThisWeek,t.maxWeeklyQuantiti,t.maxQuantity,t.discovered,t.quality
+end
 function addon:OnInitialized()
   _G.dbBFAperChar=_G.dbBFAperChar or {}
   if type(self.db.global.tutorialStep)~="number" then
