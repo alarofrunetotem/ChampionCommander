@@ -31,7 +31,7 @@ local OHFBOTTOMRIGHT=OHF.GarrCorners.BottomRightGarrCorner
 local followerType=Enum.GarrisonFollowerType.FollowerType_8_0
 local garrisonType=Enum.GarrisonType.Type_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
-local MAX_LEVEL=110
+local MAX_LEVEL=50
 --*if-non-addon*
 local ShowTT=ChampionCommanderMixin.ShowTT
 local HideTT=ChampionCommanderMixin.HideTT

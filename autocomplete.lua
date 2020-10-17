@@ -99,7 +99,7 @@ end
 -- End Template - DO NOT MODIFY ANYTHING BEFORE THIS LINE
 --*BEGIN
 local CompleteButton=OHFMissions.CompleteDialog.BorderFrame.ViewButton
-local followerType=LE_FOLLOWER_TYPE_GARRISON_8_0
+local followerType=Enum.GarrisonFollowerType.FollowerType_8_0
 local pairs=pairs
 local format=format
 local strsplit=strsplit
@@ -484,7 +484,7 @@ function module:MissionsPrintResults(success)
 			report:AddIconText(v.icon,GetMoneyString(v.qt))
 		else
 			-- Other currency reward
-			report:AddIconText(v.icon,GetCurrencyLink(k,v.qt))
+			report:AddIconText(v.icon,C_CurrencyInfo.GetCurrencyLink(k,v.qt))
 		end
 	end
 	local items=new()

@@ -48,7 +48,7 @@ local OHFBOTTOMRIGHT=OHF.GarrCorners.BottomRightGarrCorner
 local followerType=Enum.GarrisonFollowerType.FollowerType_8_0
 local garrisonType=Enum.GarrisonType.Type_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
-local MAX_LEVEL=110
+local MAX_LEVEL=50
 
 local ShowTT=ChampionCommanderMixin.ShowTT
 local HideTT=ChampionCommanderMixin.HideTT
@@ -711,8 +711,8 @@ function module:Refresh(event,...)
 end
 function module:OnInitialized()
   LoadAddOn("Blizzard_OrderHallUI")
-	currency, _ = C_Garrison.GetCurrencyTypes(garrisonType);
-	local t= C_CurrencyInfo.GetCurrencyInfo(currency);
+	currency, _ = C_Garrison.GetCurrencyTypes(garrisonType)
+	local t= C_CurrencyInfo.GetCurrencyInfo(currency)
 	currencyName=t.name 
 	resources=t.quantity 
 	currencyTexture=t.iconFileID 
