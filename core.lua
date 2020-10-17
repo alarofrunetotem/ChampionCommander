@@ -45,6 +45,14 @@ local OHFTOPLEFT=OHF.GarrCorners.TopLeftGarrCorner
 local OHFTOPRIGHT=OHF.GarrCorners.TopRightGarrCorner
 local OHFBOTTOMLEFT=OHF.GarrCorners.BottomTopLeftGarrCorner
 local OHFBOTTOMRIGHT=OHF.GarrCorners.BottomRightGarrCorner
+local LE_FOLLOWER_TYPE_GARRISON_6_0=Enum.GarrisonFollowerType.FollowerType_6_0
+local LE_FOLLOWER_TYPE_SHIPYARD_6_2=Enum.GarrisonFollowerType.FollowerType_6_2
+local LE_FOLLOWER_TYPE_GARRISON_7_0=Enum.GarrisonFollowerType.FollowerType_7_0
+local LE_FOLLOWER_TYPE_GARRISON_8_0=Enum.GarrisonFollowerType.FollowerType_8_0
+local LE_GARRISON_TYPE_6_0=Enum.GarrisonType.Type_6_0
+local LE_GARRISON_TYPE_6_2=Enum.GarrisonType.Type_6_2
+local LE_GARRISON_TYPE_7_0=Enum.GarrisonType.Type_7_0
+local LE_GARRISON_TYPE_8_0=Enum.GarrisonType.Type_8_0
 local followerType=Enum.GarrisonFollowerType.FollowerType_8_0
 local garrisonType=Enum.GarrisonType.Type_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
@@ -134,27 +142,6 @@ local _G=_G
 
 function addon:ApplyMOVEPANEL(value)
 	OHF:SetMovable(value)
-end
-function GGK()
-	for k,v in pairs(C_GARRISON) do
-		print(k,v)
-	end
-end
-function addon:GetMissionInfo(id)
-	local t=G.GetMissionDeploymentInfo(id)
-	return
-		t.location,
-		t.xp,
-		t.environment,	
-		t.environmentDesc,	
-		t.environmentTexture,	
-		t.locTextureKit,
-		t.isExhausting,
-		t.enemies
-end
-function addon:GetCurrencyInfo(id)
-	local t=C_CurrencyInfo.GetCurrencyInfo(id)
-	return t.name,t.quantity,t.iconFiledID,t.quantityEarnedThisWeek,t.maxWeeklyQuantiti,t.maxQuantity,t.discovered,t.quality
 end
 function addon:OnInitialized()
   _G.dbBFAperChar=_G.dbBFAperChar or {}

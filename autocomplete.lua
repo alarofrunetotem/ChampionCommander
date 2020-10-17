@@ -45,6 +45,14 @@ local OHFTOPLEFT=OHF.GarrCorners.TopLeftGarrCorner
 local OHFTOPRIGHT=OHF.GarrCorners.TopRightGarrCorner
 local OHFBOTTOMLEFT=OHF.GarrCorners.BottomTopLeftGarrCorner
 local OHFBOTTOMRIGHT=OHF.GarrCorners.BottomRightGarrCorner
+local LE_FOLLOWER_TYPE_GARRISON_6_0=Enum.GarrisonFollowerType.FollowerType_6_0
+local LE_FOLLOWER_TYPE_SHIPYARD_6_2=Enum.GarrisonFollowerType.FollowerType_6_2
+local LE_FOLLOWER_TYPE_GARRISON_7_0=Enum.GarrisonFollowerType.FollowerType_7_0
+local LE_FOLLOWER_TYPE_GARRISON_8_0=Enum.GarrisonFollowerType.FollowerType_8_0
+local LE_GARRISON_TYPE_6_0=Enum.GarrisonType.Type_6_0
+local LE_GARRISON_TYPE_6_2=Enum.GarrisonType.Type_6_2
+local LE_GARRISON_TYPE_7_0=Enum.GarrisonType.Type_7_0
+local LE_GARRISON_TYPE_8_0=Enum.GarrisonType.Type_8_0
 local followerType=Enum.GarrisonFollowerType.FollowerType_8_0
 local garrisonType=Enum.GarrisonType.Type_8_0
 local FAKE_FOLLOWERID="0x0000000000000000"
@@ -395,7 +403,7 @@ function module:MissionAutoComplete(event,...)
 				step=0
 				currentMission.state=0
 				currentMission.goldMultiplier=currentMission.goldMultiplier or 1
-				currentMission.xp=G.GetMissionInfo(currentMission.missionID)['xp']
+				currentMission.xp=G.GetMissionDeploymentInfo(currentMission.missionID)['xp']
 				report:AddMissionButton(currentMission,currentMission.followers,currentMission.successChance,"report")
 			end
 			if (step==0) then
@@ -484,7 +492,7 @@ function module:MissionsPrintResults(success)
 			report:AddIconText(v.icon,GetMoneyString(v.qt))
 		else
 			-- Other currency reward
-			report:AddIconText(v.icon,GetCurrencyLink(k,v.qt))
+			report:AddIconText(v.icon,C_CurrencyInfo.GetCurrencyLink(k,v.qt))
 		end
 	end
 	local items=new()
