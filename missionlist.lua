@@ -1166,10 +1166,9 @@ function module:AddThreats(frame,threats,party,missionID)
 	local biases=new()
 	for _,enemy in pairs(enemies) do
 		if type(enemy.mechanics)=="table" then
-			for mechanicID,mechanic in pairs(enemy.mechanics) do
-			-- icon=enemy.mechanics[id].icon
-				mechanic.id=mechanicID
-				mechanic.icon=icons[mechanicID] and icons[mechanicID].icon or mechanic.id
+			for _,mechanic in pairs(enemy.mechanics) do
+				mechanic.id=mechanic.mechanicTypeID
+				mechanic.icon=icons[mechanic.mechanicTypeID] and icons[mechanic.mechanicTypeID].icon or mechanic.icon
 				mechanic.bias=-1
 				tinsert(mechanics,mechanic)
 			end
