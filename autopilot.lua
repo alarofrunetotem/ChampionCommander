@@ -109,12 +109,12 @@ function module:Cleanup()
 	end
 	wipe(safeguard)
 end
+
 function module:GARRISON_MISSION_STARTED(event,missionType,missionID)
 --@debug@
   print(event,missionType,missionID)
 --@end-debug@
-
-	if missionType == LE_FOLLOWER_TYPE_GARRISON_8_0 then
+	if missionType == followerType then
 		self:UnregisterEvent("GARRISON_MISSION_STARTED")
 		local mission=G.GetBasicMissionInfo(missionID)
 		addon:UnReserveMission(missionID)

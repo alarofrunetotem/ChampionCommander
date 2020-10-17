@@ -305,7 +305,7 @@ function addon:SetDirtyFlags(event,missionType,missionID,...)
 		or event=="GARRISON_MISSION_STARTED"
     or event=="GARRISON_FOLLOWER_UPGRADED"
     or event=="GARRISON_FOLLOWER_XP_CHANGED" then
-		if missionType ~= LE_FOLLOWER_TYPE_GARRISON_8_0 then return end
+		if missionType ~= followerType then return end
 	end
 	if event=="GARRISON_FOLLOWER_CATEGORIES_UPDATED"
 		or event=="GARRISON_FOLLOWER_ADDED"
