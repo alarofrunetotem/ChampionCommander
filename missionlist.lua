@@ -1159,7 +1159,7 @@ function module:AddThreats(frame,threats,party,missionID)
 	threats:Show()
 	local enemies=addon:GetMissionData(missionID,'enemies')
 	if type(enemies)~="table" then
-		enemies=G.GetMissionDeploymentInfo(missionID)['enemies']
+		enemies=C_Garrison.GetMissionDeploymentInfo(missionID)['enemies']
 	end
 	local mechanics=new()
 	local counters=new()

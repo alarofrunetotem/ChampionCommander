@@ -141,7 +141,7 @@ function GGK()
 	end
 end
 function addon:GetMissionInfo(id)
-	local t=G.GetMissionDeploymentInfo(id)
+	local t=C_Garrison.GetMissionDeploymentInfo(id)
 	return
 		t.location,
 		t.xp,

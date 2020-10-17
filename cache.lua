@@ -481,7 +481,7 @@ local mt={
 		elseif field=="elite" then
 			mission.elite = empty(mission.overmaxRewards)
 		elseif field=="baseXP" or field =="enemies" or field=="exhausting" then
-			local baseXP=G.GetMissionDeploymentInfo(mission.missionID)['xp']
+			local baseXP=C_Garrison.GetMissionDeploymentInfo(mission.missionID)['xp']
 			mission.baseXP=addon:todefault(baseXP,0)
 		end
 		return rawget(mission,field)

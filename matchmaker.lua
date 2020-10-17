@@ -571,7 +571,7 @@ function partyManager:Match()
 	self.name=mission.name
 	wipe(self.candidates)
 	self.unique=0
-	local t=G.GetMissionDeploymentInfo(missionID)
+	local t=C_Garrison.GetMissionDeploymentInfo(missionID)
 	local baseXP=t.xp
 	local exhausting=t.isExhausting 
 	self.numFollowers=mission.numFollowers or G.GetMissionMaxFollowers(missionID)

@@ -395,7 +395,7 @@ function module:MissionAutoComplete(event,...)
 				step=0
 				currentMission.state=0
 				currentMission.goldMultiplier=currentMission.goldMultiplier or 1
-				currentMission.xp=G.GetMissionInfo(currentMission.missionID)['xp']
+				currentMission.xp=C_Garrison.GetMissionDeploymentInfo(currentMission.missionID)['xp']
 				report:AddMissionButton(currentMission,currentMission.followers,currentMission.successChance,"report")
 			end
 			if (step==0) then
