@@ -31,6 +31,8 @@
 ## X-Date: @project-date-iso@
 ## X-Embeds: LibInit
 ## X-Reboot: 1
+## X-Curse-Project-ID: 300882
+## X-WoWI-ID: 24802
 embeds.xml
 #@do-not-package@
 forcelocale.lua

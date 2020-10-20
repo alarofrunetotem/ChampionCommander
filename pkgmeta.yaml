@@ -3,7 +3,7 @@ enable-nolib-creation: no
 
 externals:
    libs/LibInit:
-      url: https://github.com/alarofrunetotem/LibInit.git/LibInit
+      url: https://github.com/alarofrunetotem/LibInit
       tag: latest
 
    libs/Ace3/AceBucket-3.0:
@@ -19,16 +19,13 @@ externals:
       tag: latest
 
    libs/LibDialog-1.0:
-      url: https://repos.wowace.com/wow/libdialog-1-0
+      url: https://hg.wowace.com/wow/libdialog-1-0
       tag: latest
 
 ignore:
-   - .buildpath
-   - .project
-   - .gitignore
-   - .settings
    - Debug.lua
    - info.txt
    - ChampionCommander.template.lua
    - tree.json
    - wohead.sh
+   - pkgmeta.yaml
