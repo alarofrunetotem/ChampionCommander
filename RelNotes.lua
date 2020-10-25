@@ -15,6 +15,9 @@ self:Wiki([[
 == Silent mode ==
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
+self:RelNotes(1,3,2, [[
+Fix: 3x ...rfaceChampionCommander\ChampionCommander-1.3.1 90001.lua:14: ChampionCommander: Missing LibInit, please reinstall
+]])
 self:RelNotes(1,2,4, [[
 Feature: Toc BUMP
 ]])
