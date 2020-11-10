@@ -19,7 +19,7 @@ externals:
       tag: latest
 
    libs/LibDialog-1.0:
-      url: https://hg.wowace.com/wow/libdialog-1-0
+      url: https://repos.wowace.com/wow/libdialog-1-0
       tag: latest
 
 ignore:
