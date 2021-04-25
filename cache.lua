@@ -398,6 +398,9 @@ local function Reward2Class(self,mission)
 	else
 		return "Generic",1
 	end
+	if not reward then
+	 return "Generic",1
+  end
 	if not overReward then overReward = emptyTable end
 	if reward.currencyID then
 		local qt=reward.currencyID==0 and reward.quantity/10000 or reward.quantity
@@ -721,9 +724,9 @@ function module:OnInitialized()
   LoadAddOn("Blizzard_OrderHallUI")
 	currency, _ = C_Garrison.GetCurrencyTypes(garrisonType);
 	local t= C_CurrencyInfo.GetCurrencyInfo(currency);
-	currencyName=t.name 
-	resources=t.quantity 
-	currencyTexture=t.iconFileID 
+	currencyName=t.name
+	resources=t.quantity
+	currencyTexture=t.iconFileID
 --@debug@
 	print("Currency init",currencyName, resources, currencyTexture)
 --@end-debug@
