@@ -908,7 +908,7 @@ function addon:GetFullPermutations(dowipe)
 				if all[j] then
 					local class,id,value=strsplit('|',all[j])
 					tinsert(fullPermutations,'2,'.. strjoin(',',all[i],all[j]))
-					if class=="T" and seen[id] > 1 then
+					if class=="T" and (seen[id] or 0) > 1 then
 						-- I only see a classSpec once. Here if i know I have more than one troop for this spec, i force
 						-- a combination with both of them
 						tinsert(fullPermutations,'3,'.. strjoin(',',all[i],all[j],all[j] .. '|2'))
