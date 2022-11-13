@@ -88,6 +88,11 @@ dprint=function() end
 ddump=function() end
 local print=function() end
 --@end-non-debug@]===]
+
+local function GetRGB(r, g, b, whatever)
+	return r, g, b
+end
+
 local GARRISON_FOLLOWER_COMBAT_ALLY=GARRISON_FOLLOWER_COMBAT_ALLY
 local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
@@ -342,9 +347,9 @@ function MixinThreats:AddIcons(mechanics,biases)
 			th.Description=mechanic.description
 			th.Ability=mechanic.ability and mechanic.ability.name or mechanic.name
 			if mechanic.color then
-				th.Border:SetVertexColor(C[mechanic.color]())
+				th.Border:SetVertexColor(GetRGB(C[mechanic.color]()))
 			else
-				th.Border:SetVertexColor(addon:ColorFromBias(biases[mechanic] or mechanic.bias))
+				th.Border:SetVertexColor(GetRGB(addon:ColorFromBias(biases[mechanic] or mechanic.bias)))
 			end
 			th:Show()
 		else
@@ -501,7 +506,7 @@ function MixinFollowerIcon:ShowTooltip()
 		local status=G.GetFollowerStatus(self.followerID)
 		if status then
 			gft.Status:SetText(TOKEN_MARKET_PRICE_NOT_AVAILABLE.. ': ' .. status)
-			gft.Status:SetTextColor(C:Orange())
+			gft.Status:SetTextColor(GetRGB(C:Orange()))
 			gft.Status:Show()
 			gft:SetHeight(gft:GetHeight()+10)
 		else
@@ -631,7 +636,7 @@ function MixinMembers:OnLoad()
 	end
 	self:SetWidth(self.Champions[1]:GetWidth()*3+30)
 	self.NotReady.Text:SetFormattedText(RAID_MEMBER_NOT_READY,STATUS_TEXT_PARTY)
-	self.NotReady.Text:SetTextColor(C.Red())
+	self.NotReady.Text:SetTextColor(GetRGB(C.Red()))
 end
 function MixinMembers:OnShow()
 	self:SetNotReady()

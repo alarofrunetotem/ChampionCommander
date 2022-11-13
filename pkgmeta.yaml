@@ -1,4 +1,4 @@
-package-as: ChampionCommander
+package-as: ChampionCommanderRedux
 enable-nolib-creation: no
 
 externals:

@@ -108,7 +108,6 @@ end
 --*BEGIN
 local wipe,pcall,pairs,IsShiftKeyDown,IsControlKeyDown=wipe,pcall,pairs,IsShiftKeyDown,IsControlKeyDown
 local PlaySound,SOUNDKIT=PlaySound,SOUNDKIT
-local OHFButtons=OHFMissions.listScroll.buttons
 
 local safeguard={}
 function module:Cleanup()
@@ -146,74 +145,80 @@ function module:DoRunMissions()
 	local baseChance=addon:GetNumber('BASECHANCE')
 	wipe(safeguard)
 	local nothing=true
-	for i=1,#OHFButtons do
-		local frame=OHFButtons[i]
-		local mission=frame.info
-		local missionID=mission and mission.missionID
-		if missionID then
-			if not addon:IsBlacklisted(missionID) and addon:HasReservedFollowers(missionID) then
-				nothing=false
-				local key=addon:GetMissionKey(missionID)
-				local party=addon:GetMissionParties(missionID):GetSelectedParty(key)
-				local members = addon:GetMembersFrame(frame)
-				addon:Print(safeformat(L["Attempting %s"],C(mission.name,'orange')))
 
-				local info=""
-				for i=1,#members.Champions do
-					local followerID=members.Champions[i]:GetFollower()
-					if followerID then
-						safeguard[followerID]=missionID
-						local rc,res = pcall(G.AddFollowerToMission,missionID,followerID)
-						if rc then
-							info=info .. G.GetFollowerLink(followerID)
-						else
-							addon:Print(C(L["Unable to start mission, aborting"],"red"))
-							self:Cleanup()
-							break
+	local scrollBox = OHFMissions.ScrollBox
+	local shouldContinue = true
+
+	scrollBox:ForEachFrame(function(frame, elementData)
+		if shouldContinue then
+			local mission=frame.info
+			local missionID=mission and mission.missionID
+			if missionID then
+				if not addon:IsBlacklisted(missionID) and addon:HasReservedFollowers(missionID) then
+					nothing=false
+					local key=addon:GetMissionKey(missionID)
+					local party=addon:GetMissionParties(missionID):GetSelectedParty(key)
+					local members = addon:GetMembersFrame(frame)
+					addon:Print(safeformat(L["Attempting %s"],C(mission.name,'orange')))
+
+					local info=""
+					for i=1,#members.Champions do
+						local followerID=members.Champions[i]:GetFollower()
+						if followerID then
+							safeguard[followerID]=missionID
+							local rc,res = pcall(G.AddFollowerToMission,missionID,followerID)
+							if rc then
+								info=info .. G.GetFollowerLink(followerID)
+							else
+								addon:Print(C(L["Unable to start mission, aborting"],"red"))
+								self:Cleanup()
+								shouldContinue = false
+							end
 						end
 					end
-				end
-				local timestring,timeseconds,timeImproved,chance,buffs,missionEffects,xpBonus,materials,gold=G.GetPartyMissionInfo(missionID)
+					local timestring,timeseconds,timeImproved,chance,buffs,missionEffects,xpBonus,materials,gold=G.GetPartyMissionInfo(missionID)
 
-				if party.perc < chance then
-					addon:Print(C(L["Could not fulfill mission, aborting"],"red"))
-					self:Cleanup()
-					break
-				end
-        local r,n,i=addon:GetResources(true)
-        if select(2,G.GetMissionCost(missionID)) > r then
-          addon:Print(C(GARRISON_NOT_ENOUGH_MATERIALS_TOOLTIP,"red"))
-          self:Cleanup()
-          break
-        end
-
-				nothing=false
-				if truerun then
-					self:RegisterEvent("GARRISON_MISSION_STARTED")
-					G.StartMission(missionID)
-					addon:Print(C(L["Started with "],"green") ..info)
-					PlaySound(SOUNDKIT.UI_GARRISON_COMMAND_TABLE_MISSION_START)
-					--@debug@
-					dprint("Calling OHF:UpdateMissions")
-					--@end-debug@
-					OHFFollowerList.dirtyList=true
-					OHFFollowerList:UpdateFollowers();
-					OHFMissions:UpdateMissions()
-					--@debug@
-					if multiple then
-					  addon:Print("Multiple is running")
-						self:ScheduleTimer("DoRunMissions",1)
+					if party.perc < chance then
+						addon:Print(C(L["Could not fulfill mission, aborting"],"red"))
+						self:Cleanup()
+						shouldContinue = false
 					end
-					--@end-debug@
-					break
-				else
-					addon:Print(C(L["Would start with "],"green") ..info)
-					addon:Print(C(safeformat(L["%s to actually start mission"],SHIFT_KEY_TEXT .. KEY_BUTTON1),"green"))
-					self:Cleanup()
+
+					local r,n,i=addon:GetResources(true)
+					if select(2,G.GetMissionCost(missionID)) > r then
+						addon:Print(C(GARRISON_NOT_ENOUGH_MATERIALS_TOOLTIP,"red"))
+						self:Cleanup()
+						shouldContinue = false
+					end
+
+					nothing=false
+					if truerun then
+						self:RegisterEvent("GARRISON_MISSION_STARTED")
+						G.StartMission(missionID)
+						addon:Print(C(L["Started with "],"green") ..info)
+						PlaySound(SOUNDKIT.UI_GARRISON_COMMAND_TABLE_MISSION_START)
+						--@debug@
+						dprint("Calling OHF:UpdateMissions")
+						--@end-debug@
+						OHFFollowerList.dirtyList=true
+						OHFFollowerList:UpdateFollowers();
+						OHFMissions:UpdateMissions()
+						--@debug@
+						if multiple then
+						addon:Print("Multiple is running")
+							self:ScheduleTimer("DoRunMissions",1)
+						end
+						--@end-debug@
+						shouldContinue = false
+					else
+						addon:Print(C(L["Would start with "],"green") ..info)
+						addon:Print(C(safeformat(L["%s to actually start mission"],SHIFT_KEY_TEXT .. KEY_BUTTON1),"green"))
+						self:Cleanup()
+					end
 				end
 			end
 		end
-	end
+	end)
 	if nothing and not multiple then
 		addon:Print(C(L["No suitable missions. Have you reserved at least one follower?"],"red"))
 	end

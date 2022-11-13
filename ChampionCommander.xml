@@ -79,7 +79,7 @@
 	<Frame name="BFAMembers" mixin="ChampionCommanderMixin,ChampionCommanderMixinMembers" virtual="true" enableMouse="false">
 		<Size x="1" y="70"/>
 		<Frames>
-			<Frame parentKey="NotReady" strata="HIGH">
+			<Frame parentKey="NotReady" frameStrata="HIGH">
 				<Anchors>
 					<Anchor point="TOPLEFT" x="-5" y="0"/>
 					<Anchor point="BOTTOMRIGHT" x="5" y="0"/>
@@ -321,7 +321,7 @@
 			<OnLoad method="OnLoad"/>
 		</Scripts>
 	</Frame>
-	<CheckButton name="BFATab" mouseEnable="true" virtual="true" inherits="SpellBookSkillLineTabTemplate">
+	<CheckButton name="BFATab" virtual="true" inherits="SpellBookSkillLineTabTemplate">
 		<Size x="100" y="50" />
 		<KeyValues>
 			<KeyValue key="flag" value="" type="string"/>

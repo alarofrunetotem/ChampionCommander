@@ -77,6 +77,11 @@ dprint=function() end
 ddump=function() end
 local print=function() end
 --@end-non-debug@]===]
+
+local function GetRGB(r, g, b, whatever)
+	return r, g, b
+end
+
 local GARRISON_FOLLOWER_COMBAT_ALLY=GARRISON_FOLLOWER_COMBAT_ALLY
 local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
@@ -569,10 +574,10 @@ function module:ParseFollowers()
 end
 local function paintCat(frame)
   if addon:GetBoolean(frame.key) then
-    frame.Count:SetTextColor(C.red())
+    frame.Count:SetTextColor(GetRGB(C.red()))
     frame.Icon:SetDesaturated(true)
   else
-    frame.Count:SetTextColor(C.green())
+    frame.Count:SetTextColor(GetRGB(C.green()))
     frame.Icon:SetDesaturated(false)
   end
 end

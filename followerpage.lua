@@ -77,6 +77,11 @@ dprint=function() end
 ddump=function() end
 local print=function() end
 --@end-non-debug@]===]
+
+local function GetRGB(r, g, b, whatever)
+	return r, g, b
+end
+
 local GARRISON_FOLLOWER_COMBAT_ALLY=GARRISON_FOLLOWER_COMBAT_ALLY
 local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
@@ -215,7 +220,7 @@ function module:CheckEquipment(this,followerInfo)
 				local quality=addon:GetItemQuality(itemid)
 				if  type(quality)=="number" then
 					colored=true
-					f.Border:SetVertexColor(GetItemQualityColor(quality))
+					f.Border:SetVertexColor(GetRGB(GetItemQualityColor(quality)))
 				end
 			end
 		end
@@ -418,7 +423,7 @@ do local pool={}
         b.Quantity:SetTextColor(b.IconBorder:GetVertexColor())
       else
         b.Icon:SetDesaturated(true)
-        b.Quantity:SetTextColor(C.Grey())
+        b.Quantity:SetTextColor(GetRGB(C.Grey()))
       end
       b:Show()
   end
