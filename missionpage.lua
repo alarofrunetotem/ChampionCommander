@@ -77,6 +77,11 @@ dprint=function() end
 ddump=function() end
 local print=function() end
 --@end-non-debug@]===]
+
+local function GetRGB(r, g, b, whatever)
+	return r, g, b
+end
+
 local GARRISON_FOLLOWER_COMBAT_ALLY=GARRISON_FOLLOWER_COMBAT_ALLY
 local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
@@ -131,7 +136,7 @@ function module:FillMissionPage(missionInfo,key)
 		expires:SetDrawLayer(model:GetDrawLayer())
 	end
 	expires:SetFormattedText(GARRISON_MISSION_AVAILABILITY2,missionInfo.offerTimeRemaining or "")
-	expires:SetTextColor(addon:GetAgeColor(missionInfo.offerEndTime))
+	expires:SetTextColor(GetRGB(addon:GetAgeColor(missionInfo.offerEndTime)))
 	expires:SetPoint("TOPLEFT",stage.MissionInfo,"BOTTOMLEFT",0,-2)
 	if not button then
     button=addon:GetFactory():Button(OHFMissionPage,L["Analyze parties"],L["See all possible parties for this mission"])
@@ -240,7 +245,7 @@ function module:Update(scrollFrame)
       button.key=key
       button.party=party
       button.Perc:SetFormattedText(PERCENTAGE_STRING,party.perc)
-      button.Perc:SetTextColor(addon:GetDifficultyColors(party.perc,true))
+      button.Perc:SetTextColor(GetRGB(addon:GetDifficultyColors(party.perc,true)))
       local text=''
       if key==parties.uncappedkey then
         text=text .. C(L["Uncapped"],"Blue") .. ' '

@@ -17,6 +17,11 @@ local GARRISON_FOLLOWER_DISBANDED=GARRISON_FOLLOWER_DISBANDED
 local BONUS_LOOT_LABEL=C(" (".. BONUS_LOOT_LABEL .. ")","Green")
 local GetItemInfo,GetItemIcon=GetItemInfo,GetItemIcon
 local m={} --#Widget
+
+local function GetRGB(r, g, b, whatever)
+	return r, g, b
+end
+
 function m:ScrollDown()
 	local obj=self.scroll
 	if (#self.missions >1 and obj.scrollbar and obj.scrollbar:IsShown()) then
@@ -67,14 +72,14 @@ function m:AddMissionResult(missionID,success)
 			else
 				mission.Result:SetText(GARRISON_MISSION_SUCCESS)
 			end			
-			mission.Result:SetTextColor(C:Green())
+			mission.Result:SetTextColor(GetRGB(C:Green()))
 			for i=1,#frame.Rewards do
 				frame.Rewards[i].Icon:SetDesaturated(false)
 				frame.Rewards[i].Quantity:Show()
 			end
 		else
 			mission.Result:SetText(GARRISON_MISSION_FAILED)
-			mission.Result:SetTextColor(C:Red())
+			mission.Result:SetTextColor(GetRGB(C:Red()))
 			
 			for i=1,#frame.Rewards do
 				frame.Rewards[i].Icon:SetDesaturated(true)
