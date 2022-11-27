@@ -108,7 +108,7 @@ end
 --*BEGIN
 local wipe,pcall,pairs,IsShiftKeyDown,IsControlKeyDown=wipe,pcall,pairs,IsShiftKeyDown,IsControlKeyDown
 local PlaySound,SOUNDKIT=PlaySound,SOUNDKIT
-local OHFButtons=OHFMissions.listScroll.buttons
+local OHFButtons=OHFMissions.ScrollBox
 
 local safeguard={}
 function module:Cleanup()
@@ -146,8 +146,7 @@ function module:DoRunMissions()
 	local baseChance=addon:GetNumber('BASECHANCE')
 	wipe(safeguard)
 	local nothing=true
-	for i=1,#OHFButtons do
-		local frame=OHFButtons[i]
+	for _,frame in OHFButtons:Enumerateframes() do
 		local mission=frame.info
 		local missionID=mission and mission.missionID
 		if missionID then

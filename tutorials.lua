@@ -107,7 +107,7 @@ end
 -- End Template - DO NOT MODIFY ANYTHING BEFORE THIS LINE
 --*BEGIN
 local tutorialVersion=1
-local OHFButtons=OHFMissions.listScroll.buttons
+local OHFButtons=OHFMissions.ScrollBox
 local HelpPlate_TooltipHide=HelpPlate_TooltipHide
 local HelpPlateTooltip=HelpPlateTooltip
 local platestrata = HelpPlateTooltip:GetFrameStrata()
