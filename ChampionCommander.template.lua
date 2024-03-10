@@ -11,7 +11,7 @@ local empty=addon:Wrap("Empty")
 local todefault=addon:Wrap("todefault")
 --*end-if-non-addon*
 local tonumber=tonumber
-local type=type
+local type=type --as
 local OHF=BFAMissionFrame
 local OHFMissionTab=BFAMissionFrame.MissionTab --Container for mission list and single mission
 local OHFMissions=BFAMissionFrame.MissionTab.MissionList -- same as BFAMissionFrameMissions Call Update on this to refresh Mission Listing
