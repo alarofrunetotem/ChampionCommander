@@ -1,4 +1,4 @@
-## Interface: 100250
+## Interface: 100205
 ## Title: ChampionCommander (BFA mission assistant)
 ## Notes: Sending all follower to missions with just one click and more
 ## Notes-itIT: Invia tutti i seguaci in missione con un click e molto altro

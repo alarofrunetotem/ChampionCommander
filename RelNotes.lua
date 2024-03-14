@@ -15,6 +15,9 @@ self:Wiki([[
 == Silent mode ==
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
+self:RelNotes(1,9,0,[[
+Toc: bump for 1.2.5    
+]])
 self:RelNotes(1,3,5, [[
 Fix: Interface\AddOns\ChampionCommander\cache.lua:911: attempt to compare number with nil
 ]])

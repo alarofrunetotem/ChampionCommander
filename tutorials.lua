@@ -28,7 +28,7 @@ local empty=addon:Wrap("Empty")
 local todefault=addon:Wrap("todefault")
 
 local tonumber=tonumber
-local type=type
+local type=type --as
 local OHF=BFAMissionFrame
 local OHFMissionTab=BFAMissionFrame.MissionTab --Container for mission list and single mission
 local OHFMissions=BFAMissionFrame.MissionTab.MissionList -- same as BFAMissionFrameMissions Call Update on this to refresh Mission Listing
@@ -64,9 +64,9 @@ local HideTT=ChampionCommanderMixin.HideTT
 local dprint=print
 local ddump
 --@debug@
-LoadAddOn("Blizzard_DebugTools")
+C_AddOns.LoadAddOn("Blizzard_DebugTools")
 ddump=DevTools_Dump
-LoadAddOn("LibDebug")
+C_AddOns.LoadAddOn("LibDebug")
 
 if LibDebug then LibDebug() dprint=print end
 local safeG=addon.safeG
@@ -82,6 +82,7 @@ local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
 local GARRISON_FOLLOWER_IN_PARTY=GARRISON_FOLLOWER_IN_PARTY
 local GARRISON_FOLLOWER_AVAILABLE=AVAILABLE
+---@diagnostic disable-next-line: undefined-field
 local ViragDevTool_AddData=_G.ViragDevTool_AddData
 if not ViragDevTool_AddData then ViragDevTool_AddData=function() end end
 local KEY_BUTTON1 = "\124TInterface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:228:283\124t" -- left mouse button
@@ -127,7 +128,7 @@ tutorials={
   },
   {
     text=function()
-        local c,n=C(X["Counter kill Troops"], fcolor),C(X["Never kill Troops"],fcolor),C(addon:GetNumber("MAXCHAMP"),ncolor)
+        local c,n,x=C(X["Counter kill Troops"], fcolor),C(X["Never kill Troops"],fcolor),C(addon:GetNumber("MAXCHAMP"),ncolor)
         return format(L["With %1$s you ask to always counter the Hazard kill troop.\nThis means that BFA will try to counter it OR use a troop with just one durability left.\nThe target for this switch is to avoid wasting durability point, NOT to avoid troops' death."],
         c)
     end,
@@ -330,7 +331,9 @@ local function plate(self,tutorial)
       y= -20
     elseif a1 == "CENTER" then
       a2="CENTER"
+---@diagnostic disable-next-line: cast-local-type
       arrow=false
+---@diagnostic disable-next-line: cast-local-type
       glow=false
       x=0
       y=0

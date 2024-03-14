@@ -28,7 +28,7 @@ local empty=addon:Wrap("Empty")
 local todefault=addon:Wrap("todefault")
 
 local tonumber=tonumber
-local type=type
+local type=type --as
 local OHF=BFAMissionFrame
 local OHFMissionTab=BFAMissionFrame.MissionTab --Container for mission list and single mission
 local OHFMissions=BFAMissionFrame.MissionTab.MissionList -- same as BFAMissionFrameMissions Call Update on this to refresh Mission Listing
@@ -64,9 +64,9 @@ local HideTT=ChampionCommanderMixin.HideTT
 local dprint=print
 local ddump
 --@debug@
-LoadAddOn("Blizzard_DebugTools")
+C_AddOns.LoadAddOn("Blizzard_DebugTools")
 ddump=DevTools_Dump
-LoadAddOn("LibDebug")
+C_AddOns.LoadAddOn("LibDebug")
 
 if LibDebug then LibDebug() dprint=print end
 local safeG=addon.safeG
@@ -82,6 +82,7 @@ local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
 local GARRISON_FOLLOWER_IN_PARTY=GARRISON_FOLLOWER_IN_PARTY
 local GARRISON_FOLLOWER_AVAILABLE=AVAILABLE
+---@diagnostic disable-next-line: undefined-field
 local ViragDevTool_AddData=_G.ViragDevTool_AddData
 if not ViragDevTool_AddData then ViragDevTool_AddData=function() end end
 local KEY_BUTTON1 = "\124TInterface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:228:283\124t" -- left mouse button
@@ -125,10 +126,13 @@ function module:OnInitialized()
 end
 
 function module:GenerateMissionCompleteList(title,anchor)
+---@diagnostic disable-next-line: param-type-mismatch
 	local w=AceGUI:Create("BFAMissionsList")
 --@debug@
+---@diagnostic disable-next-line: undefined-field
 	title=format("%s %s %s",title,w.frame:GetName(),GetTime()*1000)
 --@end-debug@
+---@diagnostic disable-next-line: undefined-field
 	w:SetTitle(title)
 	w:SetCallback("OnClose",function(widget) return module:MissionsCleanup() end)
 	--report:SetPoint("TOPLEFT",GMFMissions.CompleteDialog.BorderFrame)
@@ -140,6 +144,7 @@ function module:GenerateMissionCompleteList(title,anchor)
   w:SetPoint("RIGHT",anchor,2,0)
 	w:SetWidth(700)
 	w:SetParent(anchor)
+---@diagnostic disable-next-line: undefined-field
 	w.frame:SetFrameStrata("HIGH")
 	return w
 end
@@ -247,6 +252,7 @@ function module:MissionComplete(this,button,skiprescheck)
 		local message=C("WARNING",'red')
 		local wasted={}
 		--@debug@
+---@diagnostic disable-next-line: undefined-field
 		if _G.ONEONE then
 		  missions={missions[1]}
 		end
@@ -275,7 +281,7 @@ function module:MissionComplete(this,button,skiprescheck)
 		end
 		local stop
 		for id,qt in pairs(wasted) do
-			local name,current,_,_,_,cap=Addon:GetCurrencyInfo(id)
+			local name,current,_,_,_,cap=addon:GetCurrencyInfo(id)
 			current=current+qt
 			if current+qt > cap then
 				message=message.."\n"..format(L["Capped %1$s. Spend at least %2$d of them"],name,current+qt-cap)
