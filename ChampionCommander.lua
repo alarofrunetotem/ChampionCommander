@@ -1,7 +1,7 @@
 local __FILE__=tostring(debugstack(1,2,0):match("(.*):1:")) -- Always check line number in regexp and file, must be 1
 --@debug@
 print('Loaded',__FILE__)
---@end-debug@ 
+--@end-debug@
 local function pp(...) print(GetTime(),"|cff009900",__FILE__:sub(-15),strjoin(",",tostringall(...)),"|r") end
 --*TYPE addon
 --*CONFIG noswitch=false,profile=true,enhancedProfile=true
@@ -27,7 +27,7 @@ local del=addon:Wrap("DelTable")
 local kpairs=addon:Wrap("Kpairs")
 local empty=addon:Wrap("Empty")
 local tonumber=tonumber
-local type=type
+local type=type --as
 local OHF=BFAMissionFrame
 local OHFMissionTab=BFAMissionFrame.MissionTab --Container for mission list and single mission
 local OHFMissions=BFAMissionFrame.MissionTab.MissionList -- same as BFAMissionFrameMissions Call Update on this to refresh Mission Listing
@@ -93,6 +93,7 @@ local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
 local GARRISON_FOLLOWER_IN_PARTY=GARRISON_FOLLOWER_IN_PARTY
 local GARRISON_FOLLOWER_AVAILABLE=AVAILABLE
+---@diagnostic disable-next-line: undefined-field
 local ViragDevTool_AddData=_G.ViragDevTool_AddData
 if not ViragDevTool_AddData then ViragDevTool_AddData=function() end end
 local KEY_BUTTON1 = "\124TInterface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:228:283\124t" -- left mouse button

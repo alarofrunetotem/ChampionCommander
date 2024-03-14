@@ -28,7 +28,7 @@ local empty=addon:Wrap("Empty")
 local todefault=addon:Wrap("todefault")
 
 local tonumber=tonumber
-local type=type
+local type=type --as
 local OHF=BFAMissionFrame
 local OHFMissionTab=BFAMissionFrame.MissionTab --Container for mission list and single mission
 local OHFMissions=BFAMissionFrame.MissionTab.MissionList -- same as BFAMissionFrameMissions Call Update on this to refresh Mission Listing
@@ -64,9 +64,9 @@ local HideTT=ChampionCommanderMixin.HideTT
 local dprint=print
 local ddump
 --@debug@
-LoadAddOn("Blizzard_DebugTools")
+C_AddOns.LoadAddOn("Blizzard_DebugTools")
 ddump=DevTools_Dump
-LoadAddOn("LibDebug")
+C_AddOns.LoadAddOn("LibDebug")
 
 if LibDebug then LibDebug() dprint=print end
 local safeG=addon.safeG
@@ -82,6 +82,7 @@ local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
 local GARRISON_FOLLOWER_IN_PARTY=GARRISON_FOLLOWER_IN_PARTY
 local GARRISON_FOLLOWER_AVAILABLE=AVAILABLE
+---@diagnostic disable-next-line: undefined-field
 local ViragDevTool_AddData=_G.ViragDevTool_AddData
 if not ViragDevTool_AddData then ViragDevTool_AddData=function() end end
 local KEY_BUTTON1 = "\124TInterface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:228:283\124t" -- left mouse button
@@ -126,7 +127,7 @@ function module:GARRISON_MISSION_STARTED(event,missionType,missionID)
 		self:UnregisterEvent("GARRISON_MISSION_STARTED")
 		local mission=G.GetBasicMissionInfo(missionID)
 		addon:UnReserveMission(missionID)
-		-- Remove used followers from safeguad
+		-- Remove used followers from safeguard
 		for i=1,#mission.followers do
 			safeguard[mission.followers[i]]=nil
 		end

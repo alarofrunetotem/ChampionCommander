@@ -28,7 +28,7 @@ local empty=addon:Wrap("Empty")
 local todefault=addon:Wrap("todefault")
 
 local tonumber=tonumber
-local type=type
+local type=type --as
 local OHF=BFAMissionFrame
 local OHFMissionTab=BFAMissionFrame.MissionTab --Container for mission list and single mission
 local OHFMissions=BFAMissionFrame.MissionTab.MissionList -- same as BFAMissionFrameMissions Call Update on this to refresh Mission Listing
@@ -64,9 +64,9 @@ local HideTT=ChampionCommanderMixin.HideTT
 local dprint=print
 local ddump
 --@debug@
-LoadAddOn("Blizzard_DebugTools")
+C_AddOns.LoadAddOn("Blizzard_DebugTools")
 ddump=DevTools_Dump
-LoadAddOn("LibDebug")
+C_AddOns.LoadAddOn("LibDebug")
 
 if LibDebug then LibDebug() dprint=print end
 local safeG=addon.safeG
@@ -82,6 +82,7 @@ local GARRISON_FOLLOWER_ON_MISSION=GARRISON_FOLLOWER_ON_MISSION
 local GARRISON_FOLLOWER_INACTIVE=GARRISON_FOLLOWER_INACTIVE
 local GARRISON_FOLLOWER_IN_PARTY=GARRISON_FOLLOWER_IN_PARTY
 local GARRISON_FOLLOWER_AVAILABLE=AVAILABLE
+---@diagnostic disable-next-line: undefined-field
 local ViragDevTool_AddData=_G.ViragDevTool_AddData
 if not ViragDevTool_AddData then ViragDevTool_AddData=function() end end
 local KEY_BUTTON1 = "\124TInterface\\TutorialFrame\\UI-Tutorial-Frame:12:12:0:0:512:512:10:65:228:283\124t" -- left mouse button
@@ -172,6 +173,7 @@ local function getCachedMissions()
 end
 local function getCachedFollowers()
 	if empty(cachedFollowers) then
+---@diagnostic disable-next-line: redundant-parameter
 		local followers=G.GetFollowers(followerType)
 		if type(followers)=="table" then
 			local time=GetTime()
@@ -543,7 +545,9 @@ local TroopsHeader
 function module:GetTroopsFrame()
 	if not TroopsHeader then
 		local frame=CreateFrame("Frame",nil,OHF,"TooltipBorderedFrameTemplate")
+---@diagnostic disable-next-line: undefined-field
 		frame.Background:Hide()
+---@diagnostic disable-next-line: inject-field
 		frame.Top=frame:CreateTexture(nil,"BACKGROUND",nil,-1)
 		frame.Top:SetPoint("TOPLEFT")
 		frame.Top:SetPoint("BOTTOMRIGHT")
@@ -557,6 +561,7 @@ function module:GetTroopsFrame()
 		frame:SetScript("OnDragStart",function(frame) if addon:GetBoolean('MOVEPANEL') then OHF:StartMoving() end end)
 		frame:SetScript("OnDragStop",function(frame) OHF:StopMovingOrSizing() end)
 		frame:Show()
+---@diagnostic disable-next-line: inject-field
 		frame.Buttons={}
 		TroopsHeader=frame
 	end
@@ -600,6 +605,7 @@ function module:DrawKrokuls(main)
         --module:DrawTroopStatus(main)
       end)
       b:SetAttribute("type","item")
+---@diagnostic disable-next-line: undefined-field
       b.Quantity:SetFontObject("GameFontNormalShadowHuge2")
       b:SetScale(0.65)
     end
@@ -613,11 +619,11 @@ function module:DrawKrokuls(main)
   end
 end
 function module:xDrawTroopStatus(main)
-  categoryInfo = G.GetClassSpecCategoryInfo(followerType)
+  categoryInfo = G.GetClassSpecCategoryInfo(followerType) or {}
   DevTools_Dump(categoryInfo)
   if not OHF:IsVisible() then return end
   local prevCategory, firstCategory;
-  local nCategories=_G.XX or #categoryInfo
+  local nCategories=#categoryInfo
   if nCategories < 1 then return end
   local previous
   local mask=nCategories <5 and CATEGORY_INFO_FORMAT or nCategories <7 and CATEGORY_INFO_FORMAT_SHORT or CATEGORY_INFO_FORMAT_VERY_SHORT
@@ -636,6 +642,7 @@ function module:xDrawTroopStatus(main)
       frame:SetScript("OnDragStart",function(frame) if addon:GetBoolean('MOVEPANEL') then OHF:StartMoving() end end)
       frame:SetScript("OnDragStop",function(frame) OHF:StopMovingOrSizing() end)
       frame:SetScript("OnClick",function(frame) local value=not addon:GetBoolean(frame.key) addon:SetVar(frame.key,value) paintCat(frame) addon:Apply(frame.key,value) end)
+---@diagnostic disable-next-line: inject-field
       frame.OnEnter=frame:GetScript("OnEnter")
       frame:SetScript("OnEnter",function(frame)
         frame:OnEnter()
@@ -721,7 +728,7 @@ function module:Refresh(event,...)
 	end
 end
 function module:OnInitialized()
-  LoadAddOn("Blizzard_OrderHallUI")
+  C_AddOns.LoadAddOn("Blizzard_OrderHallUI")
 	currency, _ = C_Garrison.GetCurrencyTypes(garrisonType);
 	local t= C_CurrencyInfo.GetCurrencyInfo(currency);
 	currencyName=t.name
@@ -761,6 +768,7 @@ function addon:GetMissionData(...)
 	return module:GetMissionData(...)
 end
 function addon:RefreshFollowers()
+---@diagnostic disable-next-line: redundant-parameter
 	followerCache=G.GetFollowers(followerType)
 	rebuildFollowerIndex()
 --@debug@
@@ -808,7 +816,7 @@ end
 local troopCosts={}
 function addon:GetTroopCost(classSpec)
 	if not troopCosts[classSpec] then
-		local t=G.GetClassSpecCategoryInfo(followerType)
+		local t=G.GetClassSpecCategoryInfo(followerType) or {}
 		for i=1,#t do
 			troopCosts[t[i].classSpec]=t[i].limit * 100
 		end
