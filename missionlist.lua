@@ -835,7 +835,7 @@ function module:InitialSetup(this)
     else
 		  frame.label:SetText("You are using |cffff0000BETA VERSION|r "..addon.version ..".\nIf something doesnt work usually typing /reload will fix it.")
 		end
-		frame.label:SetJustifyV("CENTER")
+		frame.label:SetJustifyV("MIDDLE")
 		frame.label:SetJustifyH("CENTER")
 		frame:SetHeight(frame.label:GetStringHeight()+15)
 		frame:SetWidth(OHF:GetWidth())
