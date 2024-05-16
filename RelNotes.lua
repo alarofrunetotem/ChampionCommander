@@ -15,7 +15,7 @@ self:Wiki([[
 == Silent mode ==
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
-self:RelNotes(1,11,2,[[
+self:RelNotes(1,11,3,[[
 Toc: Update for 10.2.7
 Fix: Lua Error about SetJustifyV
 ]])
