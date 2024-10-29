@@ -1,7 +1,9 @@
+---@diagnostic disable: unused-local
 local __FILE__=tostring(debugstack(1,2,0):match("(.*):1:")) -- Always check line number in regexp and file, must be 1
 --@debug@
 print('Loaded',__FILE__)
 --@end-debug@
+---@diagnostic disable-next-line: unused-local, param-type-mismatch
 local function pp(...) print(GetTime(),"|cff009900",__FILE__:sub(-15),strjoin(",",tostringall(...)),"|r") end
 --*TYPE module
 --*CONFIG noswitch=false,profile=true,enhancedProfile=true
@@ -114,18 +116,16 @@ local UNCAPPED_PERC=PERCENTAGE_STRING
 local CAPPED_PERC=PERCENTAGE_STRING .. "**"
 local Dialog = LibStub("LibDialog-1.0")
 local missionNonFilled=true
-local wipe=wipe
 local GetTime=GetTime
 local ENCOUNTER_JOURNAL_SECTION_FLAG4=ENCOUNTER_JOURNAL_SECTION_FLAG4
 local RESURRECT=RESURRECT
 local LOOT=LOOT
 local IGNORED=IGNORED
 local UNUSED=UNUSED
-local GARRISON_FOLLOWER_COMBAT_ALLY=GARRISON_FOLLOWER_COMBAT_ALLY
 local nobonusloot=G.GetFollowerAbilityDescription(471)
 local increasedcost=G.GetFollowerAbilityDescription(472)
 local increasedduration=G.GetFollowerAbilityDescription(428)
-local killtroops=G.GetFollowerAbilityDescription(437)
+local killtroops=G.GetFollowerAbilityDescription(437) or ''
 local killtroopsnodie=killtroops:gsub('%.',' ') ..  L['but using troops with just one durability left']
 local GARRISON_MISSION_AVAILABILITY2=GARRISON_MISSION_AVAILABILITY .. " %s"
 local GARRISON_MISSION_ID="MissionID: %d"
@@ -159,7 +159,7 @@ end
 local function getFactionInfoFromCurrency(id)
     local factionId=C_CurrencyInfo.GetFactionGrantedByCurrency(id)
     if not factionId then return nil,nil end
-    local faction,_,level=GetFactionInfoByID(factionId)
+    local faction,_,level=C_Reputation.GetFactionDataByID(factionId)
     return faction,level
 end
 local function GetPerc(mission,realvalue)
@@ -374,7 +374,9 @@ function module:GarrisonMissionButtonRewards_OnEnter(this)
 	if this.itemID  then
 		local factionID=addon.allReputationGain[this.itemID]
 		if factionID then
-		  local faction,_,level=GetFactionInfoByID(factionID)
+		  local data=C_Reputation.GetFactionDataByID(factionID) or {}
+		  local faction = data.name
+		  local level = data.currentStanding
 		  if level then
 		    level=_G['FACTION_STANDING_LABEL' .. level]
 		    tip:AddLine(FACTION_STANDING_CHANGED:format(C(level,"GREEN"),C(faction,"GREEN")),C.Orange())
@@ -992,6 +994,7 @@ function module:AdjustMissionButton(frame)
 		stats.Expire:SetFormattedText(
 		  "%s\n%s",
 		  GARRISON_MISSION_AVAILABILITY or L["Expiration Time"],
+---@diagnostic disable-next-line: undefined-field
 		  mission.offerTimeRemaining or _G.UNKNOWN)
 		stats.Expire:SetTextColor(addon:GetAgeColor(mission.offerEndTime))
 		stats:SetPoint("LEFT",48,0)
@@ -1175,9 +1178,11 @@ function module:AddThreats(frame,threats,party,missionID)
 	local biases=new()
 	for _,enemy in pairs(enemies) do
 		if type(enemy.mechanics)=="table" then
+			--- @class mechanic
 			for _,mechanic in pairs(enemy.mechanics) do
 			-- icon=enemy.mechanics[id].icon
 			  --local mechanicID=enemy.mechanicTypeID
+			--- @class mechanic
 				mechanic.id=mechanic.mechanicTypeID
 				mechanic.icon=mechanic.ability and mechanic.ability.icon or mechanic.icon
 				mechanic.bias=mechanic.ability and mechanic.ability.bias or -1

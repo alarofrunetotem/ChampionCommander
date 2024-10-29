@@ -15,6 +15,9 @@ self:Wiki([[
 == Silent mode ==
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
+self:RelNotes(1,13,0,[[
+Toc: Update for 11.0.5, 11.0.2
+]])
 self:RelNotes(1,12,1,[[
 Rebuild: Updated libraries
 ]])
