@@ -1,0 +1,303 @@
+{
+    "NOTES": {
+        "k011301": {
+            "major": "1",
+            "minor": "13",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Toc",
+                    "info": "11.0.7"
+                }
+            ]
+        },
+        "k011300": {
+            "major": "1",
+            "minor": "13",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Toc",
+                    "info": "Update for 11.0.5, 11.0.2"
+                }
+            ]
+        },
+        "k011201": {
+            "major": "1",
+            "minor": "12",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Rebuild",
+                    "info": "Updated libraries"
+                }
+            ]
+        },
+        "k011200": {
+            "major": "1",
+            "minor": "12",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Toc",
+                    "info": "Update for 11.0.0, 11.0.2"
+                }
+            ]
+        },
+        "k011103": {
+            "major": "1",
+            "minor": "11",
+            "patch": "3",
+            "description": [
+                {
+                    "tag": "Toc",
+                    "info": "Update for 10.2.7"
+                },
+                {
+                    "tag": "Fix",
+                    "info": "Lua Error about SetJustifyV"
+                }
+            ]
+        },
+        "k010900": {
+            "major": "1",
+            "minor": "9",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Toc",
+                    "info": "bump for 1.2.5"
+                }
+            ]
+        },
+        "k010400": {
+            "major": "1",
+            "minor": "4",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Toc",
+                    "info": "bump for 9.1.0"
+                }
+            ]
+        },
+        "k010305": {
+            "major": "1",
+            "minor": "3",
+            "patch": "5",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "44x ChampionCommander\\missionlist.lua"
+                }
+            ]
+        },
+        "k010302": {
+            "major": "1",
+            "minor": "3",
+            "patch": "2",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "3x ...rfaceChampionCommander\\ChampionCommander-1.3.1 90001.lua"
+                }
+            ]
+        },
+        "k010204": {
+            "major": "1",
+            "minor": "2",
+            "patch": "4",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "Toc BUMP"
+                }
+            ]
+        },
+        "k010203": {
+            "major": "1",
+            "minor": "2",
+            "patch": "3",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "Improved reputation color codes."
+                }
+            ]
+        },
+        "k010202": {
+            "major": "1",
+            "minor": "2",
+            "patch": "2",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "#33 attempt to concatenate field 'reason' (a nil value)"
+                },
+                {
+                    "tag": "Feature",
+                    "info": "#11 Reputation info on rewards. Amount of rep colored in red for exalted reps"
+                }
+            ]
+        },
+        "k010201": {
+            "major": "1",
+            "minor": "2",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "Show duration on Analyze parties BUSY items (#27)"
+                },
+                {
+                    "tag": "Fix",
+                    "info": "Ready only in analyse works again (#31)"
+                },
+                {
+                    "tag": "Fix",
+                    "info": "Tutorial now fits in the screen (#28)"
+                },
+                {
+                    "tag": "Fix",
+                    "info": "Scouting map was not responsive with panel in locked mode (#23)"
+                }
+            ]
+        },
+        "k010200": {
+            "major": "1",
+            "minor": "2",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "TOC Bump 8.2.0"
+                }
+            ]
+        },
+        "k010101": {
+            "major": "1",
+            "minor": "1",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Parties are now refreshed on every mission start"
+                }
+            ]
+        },
+        "k010100": {
+            "major": "1",
+            "minor": "1",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "Added equipment buttons to circumvent clumsy Blizzard taint"
+                },
+                {
+                    "tag": "Fix",
+                    "info": "Italian localization is back (scusatemi, l'avevo sovrascritta col cinese)"
+                }
+            ]
+        },
+        "k010004": {
+            "major": "1",
+            "minor": "0",
+            "patch": "4",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "OrderHallCommander\\tutorials.lua"
+                }
+            ]
+        },
+        "k010003": {
+            "major": "1",
+            "minor": "0",
+            "patch": "3",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Removed debug messages"
+                }
+            ]
+        },
+        "k010002": {
+            "major": "1",
+            "minor": "0",
+            "patch": "2",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Next round of fixes"
+                }
+            ]
+        },
+        "k010001": {
+            "major": "1",
+            "minor": "0",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Removes error when opening scouting map for the first time"
+                }
+            ]
+        },
+        "k010000": {
+            "major": "1",
+            "minor": "0",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Added libs"
+                }
+            ]
+        },
+        "k000102": {
+            "major": "0",
+            "minor": "1",
+            "patch": "2",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Fixing various things as I discover them"
+                }
+            ]
+        },
+        "k000101": {
+            "major": "0",
+            "minor": "1",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "This is a clone of OrderHallCommander for BFA champions table"
+                },
+                {
+                    "tag": "Feature",
+                    "info": "Expect improvements over time"
+                }
+            ]
+        }
+    },
+    "PARAGRAPHS": [
+        "Description"
+    ],
+    "TITLE": {
+        "addon": "me",
+        "title": "RELNOTES"
+    },
+    "WIKI": [
+        "= ChampionCommander helps you when choosing the right follower for the right mission =",
+        "== General enhancements ==",
+        "* It's basically a OrderHallCommander clone",
+        "* Mission panel is movable (position not saved, it's jus to see things, panel is so huge...)",
+        "* Success chance extimation shown in mission list (optionally considering only available followers)",
+        "* Proposed party buttons and mission autofill",
+        "* \"What if\" switches to change party composition based on criteria",
+        "== Silent mode ==",
+        "typing \/BFA silent in chat will eliminate every chat message from ChampionCommander"
+    ]
+}
