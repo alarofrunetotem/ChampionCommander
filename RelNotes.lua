@@ -17,6 +17,9 @@ self:Wiki([[
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
 self:HF_Paragraph('Release Notes')
+self:RelNotes(1,13,2,[[
+Fix: work in progress
+]])
 self:RelNotes(1,13,1,[[
 Toc: 11.0.7
 ]])
