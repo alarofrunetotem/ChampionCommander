@@ -17,6 +17,10 @@ self:Wiki([[
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
 self:HF_Paragraph('Release Notes')
+self:RelNotes(1,14,0,[[
+Feature: Fixed error when first clicking on minimap button
+Toc: 11.2.5
+]])
 self:RelNotes(1,13,2,[[
 Fix: work in progress
 ]])

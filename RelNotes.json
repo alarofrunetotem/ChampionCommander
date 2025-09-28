@@ -1,5 +1,20 @@
 {
     "NOTES": {
+        "k011400": {
+            "major": "1",
+            "minor": "14",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "Fixed error when first clicking on minimap button"
+                },
+                {
+                    "tag": "Toc",
+                    "info": "11.2.5"
+                }
+            ]
+        },
         "k011302": {
             "major": "1",
             "minor": "13",
