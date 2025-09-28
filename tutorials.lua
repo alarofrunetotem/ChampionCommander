@@ -398,6 +398,7 @@ end
 function module:Hide(this)
   HelpPlateTooltip.HookedByBFA=nil
   HelpPlateTooltip:SetFrameStrata(platestrata)
+  if (not HelpPlate_TooltipHide) then return end
   HelpPlate_TooltipHide()
   HelpPlateTooltip:SetParent(UIParent)
   Clicker:SetParent(nil)
