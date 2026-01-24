@@ -467,7 +467,7 @@ function MixinFollowerIcon:ShowTooltip()
 	end
 	local link = C_Garrison.GetFollowerLink(self.followerID);
 	if link then
-    local garrisonFollowerID=select(2,strsplit(":", link))
+    local garrisonFollowerID=select(3,strsplit(":", link))
     local data=GarrisonFollowerTooltipTemplate_BuildDefaultDataForID(garrisonFollowerID)
 	  data.levelxp=G.GetFollowerLevelXP(self.followerID)
 		data.xp=G.GetFollowerXP(self.followerID)
