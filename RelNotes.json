@@ -1,5 +1,16 @@
 {
     "NOTES": {
+        "k011501": {
+            "major": "1",
+            "minor": "15",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Corrected index in follower link parsing to retrieve the correct garrisonFollowerID"
+                }
+            ]
+        },
         "k011500": {
             "major": "1",
             "minor": "15",
