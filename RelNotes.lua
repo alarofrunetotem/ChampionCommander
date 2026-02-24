@@ -17,6 +17,9 @@ self:Wiki([[
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
 self:HF_Paragraph('Release Notes')
+self:RelNotes(1,16,0,[[
+Toc: 12.0.1
+]])
 self:RelNotes(1,15,1,[[
 Fix: Corrected index in follower link parsing to retrieve the correct garrisonFollowerID
 ]])
