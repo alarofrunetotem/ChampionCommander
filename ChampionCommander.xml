@@ -246,11 +246,86 @@
 			<OnDragStop method="OnDragStop"/>
 		</Scripts>
 	</Frame>
+	<!-- <Frame name="BFAHelpPlateTooltip" inherits="GlowBoxTemplate" mixin="HelpPlateTooltipMixin" hidden="true"> -->
+	<Frame name="BFAHelpPlateTooltip" inherits="GlowBoxTemplate" mixin="HelpPlateTooltipMixin" hidden="true">
+		<Size x="220" y="100"/>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Text" inherits="GameFontHighlightLeft">
+					<Size x="200" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="15" y="-15"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture parentKey="ArrowUp" inherits="HelpPlateArrowDown" hidden="true">
+					<Size x="53" y="21"/>
+					<Anchors>
+						<Anchor point="TOP" relativePoint="BOTTOM" x="0" y="3"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="ArrowDown" inherits="HelpPlateArrowUp" hidden="true">
+					<Size x="53" y="21"/>
+					<Anchors>
+						<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-3"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="ArrowRight" inherits="HelpPlateArrowDown" hidden="true">
+					<Size x="53" y="21"/>
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT" x="3" y="0"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="ArrowLeft" inherits="HelpPlateArrowDown" hidden="true">
+					<Size x="53" y="21"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" x="-3" y="0"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture parentKey="ArrowGlowUp" inherits="HelpPlateArrow-GlowDown" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21"/>
+					<Anchors>
+						<Anchor point="TOP" relativePoint="BOTTOM" x="0" y="3"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="ArrowGlowDown" inherits="HelpPlateArrow-GlowUp" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21"/>
+					<Anchors>
+						<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="-3"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="ArrowGlowRight" inherits="HelpPlateArrow-GlowDown" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21"/>
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT" x="3" y="0"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="ArrowGlowLeft" inherits="HelpPlateArrow-GlowDown" hidden="true" alphaMode="ADD" alpha="0.5">
+					<Size x="53" y="21"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" x="-3" y="0"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Animations>
+			<AnimationGroup parentKey="LingerAndFade">
+				<Alpha parentKey="FadeOut" startDelay="5" fromAlpha="1" toAlpha="0" duration="1" smoothing="IN_OUT" order="2"/>
+			</AnimationGroup>
+		</Animations>
+		<!-- <Scripts>
+			<OnLoad method="OnLoad"/>
+			<OnHide method="OnHide"/>
+		</Scripts> -->
+	</Frame>	
 	<Frame name="BFANavigator" mixin="ChampionCommanderMixinTooltip" virtual="true">
 		<Size x="200" y="30"/>
 		<Frames>
 			<Button parentKey="Close" mixin="ChampionCommanderMixinTooltip" inherits="UIPanelCloseButton">
-				<Size x="32" y="32"/>
+				<Size x="16" y="16"/>
 				<Anchors>
 					<Anchor point="TOPRIGHT" x="5" y="5"/>
 				</Anchors>
@@ -265,12 +340,12 @@
 			<Button parentKey="Home" mixin="ChampionCommanderMixinTooltip" inherits="UIPanelCloseButton">
 				<Size x="16" y="16"/>
 				<Anchors>
-					<Anchor point="TOPLEFTT" x="0" y="0"/>
+					<Anchor point="TOPLEFTT" x="-5" y="5"/>
 				</Anchors>
 				<KeyValues>
 					<KeyValue key="tooltip" value="HOME" type="string"/>
 				</KeyValues>
-				<NormalTexture file="Interface\BUTTONS\UI-HomeButton"/>
+				<NormalTexture file="Interface\BUTTONS\UI-HomeButton" />
 				<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
 				<Scripts>
 					<OnLeave function="GameTooltip_Hide"/>
@@ -281,16 +356,19 @@
 			<Button parentKey="Forward">
 				<Size x="32" y="32"/>
 				<Anchors>
-					<Anchor point="BOTTOMRIGHT"/>
+					<Anchor point="BOTTOMRIGHT" x="5" y="-5"/>
 				</Anchors>
 				<NormalTexture file="Interface\Glues\Common\Glue-RightArrow-Button-Up"/>
 				<PushedTexture file="Interface\Glues\Common\Glue-RightArrow-Button-Down"/>
 				<HighlightTexture file="Interface\Glues\Common\Glue-RightArrow-Button-Highlight" alphaMode="ADD"/>
+				<Scripts>
+					<OnMouseUp>print("BFANavigator Forward")</OnMouseUp>
+				</Scripts>				
 			</Button>
 			<Button parentKey="Backward">
 				<Size x="32" y="32"/>
 				<Anchors>
-					<Anchor point="BOTTOMLEFT"/>
+					<Anchor point="BOTTOMLEFT" x="-5" y="-5"/>
 				</Anchors>
 				<NormalTexture file="Interface\Glues\Common\Glue-LeftArrow-Button-Up"/>
 				<PushedTexture file="Interface\Glues\Common\Glue-LeftArrow-Button-Down"/>

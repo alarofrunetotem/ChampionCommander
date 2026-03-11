@@ -109,8 +109,8 @@ end
 --*BEGIN
 local tutorialVersion=1
 local OHFButtons=OHFMissions.ScrollBox
-local HelpPlate_TooltipHide=HelpPlate_TooltipHide
-local HelpPlateTooltip=HelpPlateTooltip
+-- local HelpPlate_TooltipHide=_G.HelpPlate_TooltipHide
+local HelpPlateTooltip=_G.BFAHelpPlateTooltip
 local platestrata = HelpPlateTooltip:GetFrameStrata()
 -- Uses X for key already present i standard file
 local X=L
@@ -305,28 +305,28 @@ local function plate(self,tutorial)
     local a1=callOrUse(tutorial.anchor)
     local o,o2=callOrUse(tutorial.parent)
     self:Hide()
-    local arrow="ArrowRIGHT"
-    local glow="ArrowGlowRIGHT"
+    local arrow="ArrowRight"
+    local glow="ArrowGlowRight"
     local x=20
     local y=0
     local a2="RIGHT"
     if not o then a1="CENTER" end
     if a1=="RIGHT" then
       a2="LEFT"
-      arrow="ArrowLEFT"
-      glow="ArrowGlowLEFT"
+      arrow="ArrowLeft"
+      glow="ArrowGlowLeft"
       x=-20
       y=0
     elseif a1 =="BOTTOM" then
       a2="TOP"
-      arrow="ArrowUP"
-      glow="ArrowGlowUP"
+      arrow="ArrowUp"
+      glow="ArrowGlowUp"
       x= 0
       y=20
     elseif a1 =="TOP" then
       a2="BOTTOM"
-      arrow="ArrowDOWN"
-      glow="ArrowGlowDOWN"
+      arrow="ArrowDown"
+      glow="ArrowGlowDown"
       x= 0
       y= -20
     elseif a1 == "CENTER" then
@@ -339,7 +339,6 @@ local function plate(self,tutorial)
       y=0
     end
     platestrata=HelpPlateTooltip:GetFrameStrata()
-    HelpPlateTooltip.HookedByBFA=true
     if arrow then HelpPlateTooltip[arrow]:Show() end
     if glow then HelpPlateTooltip[glow]:Show() end
     HelpPlateTooltip:SetPoint(a1, o or OHF, a2, x, y)
@@ -381,6 +380,7 @@ local function plate(self,tutorial)
     text=tutorial
   end
   HelpPlateTooltip.Text:SetText(C(me .. ' ' .. addon.version,'Green') .. "\n" .. text .. "\n\n" )
+  HelpPlateTooltip:SetHeight(HelpPlateTooltip.Text:GetHeight() + 40)
   HelpPlateTooltip:Show()
   return rc
   --HelpPlateTooltip:SetScript("OnMouseDown",function(this) this:SetScript("OnMouseDown",this.oldClick) HelpPlate_TooltipHide() end)
@@ -398,8 +398,7 @@ end
 function module:Hide(this)
   HelpPlateTooltip.HookedByBFA=nil
   HelpPlateTooltip:SetFrameStrata(platestrata)
-  if (not HelpPlate_TooltipHide) then return end
-  HelpPlate_TooltipHide()
+  -- if (not HelpPlate_TooltipHide) then return end
   HelpPlateTooltip:SetParent(UIParent)
   Clicker:SetParent(nil)
   Clicker:Hide()
@@ -441,9 +440,10 @@ function module:Show(opening)
 
     if plate(self,tutorial) then
       Clicker.Forward:Hide()
-    elseif currentTutorialIndex < #tutorials
-    then Clicker.Forward:Show()
-    else Clicker.Forward:Hide()
+    elseif currentTutorialIndex < #tutorials then 
+      Clicker.Forward:Show()
+    else 
+      Clicker.Forward:Hide()
     end
     if currentTutorialIndex > 1 then
       Clicker.Backward:Show()
@@ -463,7 +463,7 @@ function module:Terminate()
 end
 function module:OnInitialized()
   if not Clicker then
-    Clicker=CreateFrame("Frame",nil,HelpPlateTooltip,"BFANavigator")
+    Clicker=CreateFrame("Frame","BFATutorial",HelpPlateTooltip,"BFANavigator")
     Clicker:SetAllPoints()
     self:RawHookScript(Clicker.Forward,"OnClick","Forward")
     self:RawHookScript(Clicker.Backward,"OnClick","Backward")
