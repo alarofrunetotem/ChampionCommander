@@ -17,6 +17,9 @@ self:Wiki([[
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
 self:HF_Paragraph('Release Notes')
+self:RelNotes(1,16,1,[[
+Fix: Lua error in tutorials.lua
+]])
 self:RelNotes(1,16,0,[[
 Toc: 12.0.1
 ]])
