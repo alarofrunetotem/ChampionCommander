@@ -401,6 +401,7 @@ function module:Hide(this)
   Clicker:Hide()
   Enhancer:SetParent(nil)
   Enhancer:Hide()
+  HelpPlateTooltip:Hide()
 end
 function module:Backward()
   currentTutorialIndex=math.max(currentTutorialIndex-1,1)
