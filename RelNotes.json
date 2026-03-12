@@ -1,5 +1,16 @@
 {
     "NOTES": {
+        "k011602": {
+            "major": "1",
+            "minor": "16",
+            "patch": "2",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "tutorial was not hiding on closing"
+                }
+            ]
+        },
         "k011601": {
             "major": "1",
             "minor": "16",
