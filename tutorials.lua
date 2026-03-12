@@ -121,7 +121,7 @@ local missingMessage=L["A requested window is not open\nTutorial will resume as 
 local tutorials
 tutorials={
   {
-    text=L["Welcome to the first release of ChampionCommander\nRight now it's just an OrderHallCommander clone\nPlease follow this short tutorial to discover all new functionalities.\nYou will not regret it"],
+    text=L["Welcome to a new release of ChampionCommander\nPlease follow this short tutorial to discover all new functionalities.\nYou will not regret it"],
     anchor="CENTER",
     parent=OHF,
     noglow=true
@@ -386,17 +386,14 @@ local function plate(self,tutorial)
   --HelpPlateTooltip:SetScript("OnMouseDown",function(this) this:SetScript("OnMouseDown",this.oldClick) HelpPlate_TooltipHide() end)
 end
 function module:Refresh()
-  if HelpPlateTooltip.HookedByBFA then
-    local tutorial=tutorials[currentTutorialIndex]
-    if tutorial then
-      local text = type(tutorial.text)=="function" and tutorial.text() or tutorial.text
-      plate(self,text)
-      return
-    end
+  local tutorial=tutorials[currentTutorialIndex]
+  if tutorial then
+    local text = type(tutorial.text)=="function" and tutorial.text() or tutorial.text
+    plate(self,text)
+    return
   end
 end
 function module:Hide(this)
-  HelpPlateTooltip.HookedByBFA=nil
   HelpPlateTooltip:SetFrameStrata(platestrata)
   -- if (not HelpPlate_TooltipHide) then return end
   HelpPlateTooltip:SetParent(UIParent)
@@ -404,6 +401,7 @@ function module:Hide(this)
   Clicker:Hide()
   Enhancer:SetParent(nil)
   Enhancer:Hide()
+  HelpPlateTooltip:Hide()
 end
 function module:Backward()
   currentTutorialIndex=math.max(currentTutorialIndex-1,1)
@@ -425,7 +423,6 @@ function addon:NeedsTutorial()
 end
 function module:Show(opening)
 
-  HelpPlateTooltip.HookedByBFA=nil
   if not currentTutorialIndex then currentTutorialIndex=addon.db.global.tutorialStep or 1 end
   local tutorial=tutorials[currentTutorialIndex]
   addon.db.global.tutorialStep=currentTutorialIndex
