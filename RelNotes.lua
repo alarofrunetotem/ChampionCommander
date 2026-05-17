@@ -17,6 +17,9 @@ self:Wiki([[
 typing /BFA silent in chat will eliminate every chat message from ChampionCommander
 ]])
 self:HF_Paragraph('Release Notes')
+self:RelNotes(1,16,3,[[
+Toc: 12.0.5
+]])
 self:RelNotes(1,16,2,[[
 Fix: tutorial was not hiding on closing
 ]])

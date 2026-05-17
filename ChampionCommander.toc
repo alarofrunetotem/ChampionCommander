@@ -1,4 +1,4 @@
-## Interface: 120001
+## Interface: 120005
 ## Title: ChampionCommander (BFA mission assistant)
 ## IconTexture: 134414
 ## Category-enUS: Expansion Features
